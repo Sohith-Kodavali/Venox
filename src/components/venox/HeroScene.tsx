@@ -1,13 +1,14 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { Suspense, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Grid, Instance, Instances } from "@react-three/drei";
+import { Grid, Instance, Instances, Text3D } from "@react-three/drei";
 import * as THREE from "three";
 
 const GRID = 23;
 const CELL = 0.6;
 const LIME = "#9dff3f";
+const FONT = "/fonts/helvetiker_bold.typeface.json";
 
 function fract(n: number) {
   return n - Math.floor(n);
@@ -69,6 +70,23 @@ function Core() {
   const ring = useRef<THREE.Mesh>(null);
   const ring2 = useRef<THREE.Mesh>(null);
   const light = useRef<THREE.PointLight>(null);
+  const vMesh = useRef<THREE.Mesh>(null);
+  const vGlow = useRef<THREE.Mesh>(null);
+  const hoverLight = useRef<THREE.PointLight>(null);
+  const [hovered, setHovered] = useState(false);
+
+  useLayoutEffect(() => {
+    const g = vMesh.current?.geometry;
+    if (g) {
+      g.computeBoundingBox();
+      g.center();
+    }
+    const gg = vGlow.current?.geometry;
+    if (gg) {
+      gg.computeBoundingBox();
+      gg.center();
+    }
+  }, []);
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
@@ -86,10 +104,26 @@ function Core() {
     }
     if (light.current) light.current.intensity = 30 + Math.sin(t * 2.2) * 9;
     if (group.current) group.current.position.y = 1.25 + Math.sin(t * 1.1) * 0.09;
+    if (vMesh.current) {
+      const mat = vMesh.current.material as THREE.MeshStandardMaterial;
+      mat.emissiveIntensity = THREE.MathUtils.lerp(mat.emissiveIntensity, hovered ? 2.4 : 1.0, 0.08);
+    }
+    if (vGlow.current) {
+      const mat = vGlow.current.material as THREE.MeshBasicMaterial;
+      mat.opacity = THREE.MathUtils.lerp(mat.opacity, hovered ? 0.65 : 0.35, 0.08);
+    }
+    if (hoverLight.current) {
+      hoverLight.current.intensity = THREE.MathUtils.lerp(hoverLight.current.intensity, hovered ? 55 : 0, 0.08);
+    }
   });
 
   return (
-    <group ref={group} position={[0, 1.25, 0]}>
+    <group
+      ref={group}
+      position={[0, 1.25, 0]}
+      onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = "pointer"; }}
+      onPointerOut={() => { setHovered(false); document.body.style.cursor = "default"; }}
+    >
       <mesh>
         <boxGeometry args={[1.55, 1.55, 1.55]} />
         <meshStandardMaterial color="#1a2b0d" emissive={LIME} emissiveIntensity={1} roughness={0.35} metalness={0.4} />
@@ -98,6 +132,38 @@ function Core() {
         <boxGeometry args={[1.55, 1.55, 1.55]} />
         <meshBasicMaterial color={LIME} wireframe transparent opacity={0.32} />
       </mesh>
+      <Suspense fallback={null}>
+        <group position={[0, -0.02, 0]}>
+          <Text3D
+            ref={vMesh}
+            font={FONT}
+            size={0.88}
+            height={0.38}
+            bevelEnabled
+            bevelThickness={0.04}
+            bevelSize={0.025}
+            bevelSegments={3}
+            curveSegments={6}
+          >
+            V
+            <meshStandardMaterial color="#1a2b0d" emissive={LIME} emissiveIntensity={1.0} metalness={0.7} roughness={0.2} />
+          </Text3D>
+          <Text3D
+            ref={vGlow}
+            font={FONT}
+            size={0.94}
+            height={0.34}
+            bevelEnabled
+            bevelThickness={0.05}
+            bevelSize={0.035}
+            bevelSegments={4}
+            curveSegments={6}
+          >
+            V
+            <meshBasicMaterial color={LIME} transparent opacity={0.35} wireframe blending={THREE.AdditiveBlending} depthWrite={false} />
+          </Text3D>
+        </group>
+      </Suspense>
       <mesh ref={ring}>
         <torusGeometry args={[2.3, 0.012, 8, 96]} />
         <meshBasicMaterial color={LIME} transparent opacity={0.5} />
@@ -107,6 +173,7 @@ function Core() {
         <meshBasicMaterial color={LIME} transparent opacity={0.28} />
       </mesh>
       <pointLight ref={light} color={LIME} intensity={30} distance={12} decay={2} />
+      <pointLight ref={hoverLight} color={LIME} intensity={0} distance={8} decay={2} position={[0, 0, 3]} />
     </group>
   );
 }

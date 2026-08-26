@@ -310,53 +310,6 @@ html:has(.venox) {
   opacity: 0.5;
 }
 
-.venox .vx-sweep {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.venox .vx-sweep::before {
-  content: "";
-  position: absolute;
-  top: -20%;
-  bottom: -20%;
-  left: -35%;
-  width: 34%;
-  background: linear-gradient(
-    100deg,
-    transparent 0%,
-    rgba(157, 255, 63, 0.045) 30%,
-    rgba(157, 255, 63, 0.1) 50%,
-    rgba(157, 255, 63, 0.045) 70%,
-    transparent 100%
-  );
-  transform: skewX(-18deg);
-  animation: vx-sweep-move 11s ease-in-out infinite;
-}
-
-@keyframes vx-sweep-move {
-  0% {
-    left: -35%;
-    opacity: 0;
-  }
-  8% {
-    opacity: 1;
-  }
-  42% {
-    opacity: 1;
-  }
-  50% {
-    left: 125%;
-    opacity: 0;
-  }
-  100% {
-    left: 125%;
-    opacity: 0;
-  }
-}
-
 @keyframes vx-scan {
   0% {
     top: 8%;

@@ -1,6 +1,6 @@
 import { ArrowLink, Tag } from "./ui";
 import Reveal from "./Reveal";
-import DotField from "./DotField";
+import WaveCanvas from "./WaveCanvas";
 
 const CARDS = [
   {
@@ -29,7 +29,6 @@ const CARDS = [
 export default function Disciplines() {
   return (
     <section id="capabilities" className="vx-section-dark vx-grain">
-      <DotField className="absolute inset-0" />
       <div className="relative vx-container py-24 lg:py-32">
         <div className="grid lg:grid-cols-2 gap-10 items-end mb-14">
           <div>

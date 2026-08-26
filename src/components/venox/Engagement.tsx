@@ -1,6 +1,5 @@
 import { Tag } from "./ui";
 import Reveal from "./Reveal";
-import DotField from "./DotField";
 import type { ReactNode } from "react";
 
 function IconPoly() {
@@ -65,7 +64,6 @@ const MODELS: { title: string; desc: string; icon: ReactNode }[] = [
 export default function Engagement() {
   return (
     <section id="engagement" className="vx-section-dark vx-grain border-t border-[rgba(255,255,255,0.05)]">
-      <DotField className="absolute inset-0" />
       <div className="relative vx-container py-24 lg:py-32 grid lg:grid-cols-[340px_1fr] gap-14 items-start">
         <div className="lg:sticky lg:top-28">
           <Reveal>

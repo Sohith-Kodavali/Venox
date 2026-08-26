@@ -29,6 +29,10 @@ const CARDS = [
 export default function Disciplines() {
   return (
     <section id="capabilities" className="vx-section-dark vx-grain">
+      <div className="vx-sweep" />
+      <div className="absolute inset-x-0 bottom-0 h-40 opacity-40 pointer-events-none">
+        <WaveCanvas color="#9dff3f" mode="dots" layers={3} amplitude={0.55} speed={0.6} className="w-full h-full" />
+      </div>
       <div className="relative vx-container py-24 lg:py-32">
         <div className="grid lg:grid-cols-2 gap-10 items-end mb-14">
           <div>

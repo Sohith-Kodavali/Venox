@@ -1,6 +1,7 @@
 import { ArrowLink, Tag } from "./ui";
 import Reveal from "./Reveal";
 import DotField from "./DotField";
+import WaveCanvas from "./WaveCanvas";
 
 const CARDS = [
   {

@@ -1,0 +1,361 @@
+.venox {
+  --vx-bg: #050704;
+  --vx-bg-2: #080b07;
+  --vx-panel: #0b0f09;
+  --vx-card: #0a0e08;
+  --vx-line: rgba(255, 255, 255, 0.08);
+  --vx-line-soft: rgba(255, 255, 255, 0.05);
+  --vx-lime: #9dff3f;
+  --vx-lime-soft: #b6ff57;
+  --vx-lime-dim: rgba(157, 255, 63, 0.55);
+  --vx-text: #eef2e6;
+  --vx-muted: #9aa590;
+  --vx-muted-2: #6f7a66;
+  --vx-light-bg: #f1f2ec;
+  --vx-light-bg-2: #e7e9e1;
+  --vx-dark-text: #10150c;
+  --vx-dark-muted: #4c5544;
+  background:
+    radial-gradient(ellipse 55% 40% at 85% 0%, rgba(157, 255, 63, 0.06), transparent 60%),
+    radial-gradient(ellipse 45% 35% at 0% 60%, rgba(157, 255, 63, 0.04), transparent 55%),
+    var(--vx-bg);
+  color: var(--vx-text);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  min-height: 100vh;
+  overflow-x: clip;
+  position: relative;
+}
+
+html:has(.venox) {
+  scroll-behavior: smooth;
+}
+
+.venox ::selection {
+  background: var(--vx-lime);
+  color: #0a0f05;
+}
+
+.venox .vx-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.venox .vx-section-dark {
+  position: relative;
+  background:
+    radial-gradient(ellipse 60% 50% at 90% 10%, rgba(157, 255, 63, 0.07), transparent 60%),
+    radial-gradient(ellipse 50% 60% at 5% 90%, rgba(157, 255, 63, 0.05), transparent 55%),
+    linear-gradient(180deg, #050704 0%, #070a06 50%, #050704 100%);
+}
+
+.venox .vx-section-dark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(157, 255, 63, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(157, 255, 63, 0.03) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 75%);
+}
+
+.venox .vx-section-light {
+  position: relative;
+  background:
+    radial-gradient(ellipse 55% 45% at 95% 5%, rgba(120, 180, 40, 0.1), transparent 60%),
+    radial-gradient(ellipse 45% 50% at 0% 95%, rgba(120, 180, 40, 0.08), transparent 55%),
+    linear-gradient(180deg, #f1f2ec 0%, #eaece4 100%);
+  background-color: #f1f2ec;
+  color: var(--vx-dark-text);
+}
+
+.venox .vx-section-light::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(60, 90, 20, 0.12) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse 70% 60% at 80% 20%, black 20%, transparent 70%);
+  opacity: 0.5;
+}
+
+.venox .vx-tag {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--vx-lime);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.venox .vx-tag::before {
+  content: "";
+  width: 22px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+.venox .vx-tag--dark {
+  color: #5a7a1e;
+}
+
+.venox .vx-h1 {
+  font-size: clamp(2.9rem, 6.4vw, 5.4rem);
+  line-height: 0.98;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+
+.venox .vx-h2 {
+  font-size: clamp(1.9rem, 3.6vw, 3rem);
+  line-height: 1.04;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.venox .vx-h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.venox .vx-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 14px 22px;
+  border: 1px solid transparent;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.venox .vx-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.5s ease;
+}
+
+.venox .vx-btn:hover::after {
+  left: 130%;
+}
+
+.venox .vx-btn-lime {
+  background: var(--vx-lime);
+  color: #0a0f05;
+  font-weight: 600;
+}
+.venox .vx-btn-lime:hover {
+  background: var(--vx-lime-soft);
+  box-shadow: 0 0 40px rgba(157, 255, 63, 0.4);
+}
+
+.venox .vx-btn-ghost {
+  border-color: var(--vx-line);
+  color: var(--vx-text);
+}
+.venox .vx-btn-ghost:hover {
+  border-color: var(--vx-lime-dim);
+  color: var(--vx-lime);
+}
+
+.venox .vx-btn-outline-dark {
+  border-color: rgba(16, 21, 12, 0.25);
+  color: var(--vx-dark-text);
+}
+.venox .vx-btn-outline-dark:hover {
+  border-color: var(--vx-dark-text);
+}
+
+.venox .vx-arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: gap 0.25s ease, color 0.25s ease;
+}
+.venox .vx-arrow-link:hover {
+  gap: 16px;
+}
+
+.venox .vx-card {
+  background: linear-gradient(180deg, rgba(20, 26, 16, 0.6), rgba(10, 14, 8, 0.9));
+  border: 1px solid var(--vx-line-soft);
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.venox .vx-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(157, 255, 63, 0.08), transparent 65%);
+  pointer-events: none;
+}
+
+.venox .vx-card:hover {
+  border-color: rgba(157, 255, 63, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(157, 255, 63, 0.08);
+}
+
+.venox .vx-card:hover::before {
+  opacity: 1;
+}
+
+.venox .vx-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E");
+}
+
+.venox .vx-grid-bg {
+  background-image: linear-gradient(rgba(157, 255, 63, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(157, 255, 63, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.venox .vx-hero-viz-fallback {
+  background:
+    radial-gradient(ellipse 60% 55% at 68% 42%, rgba(157, 255, 63, 0.16), transparent 65%),
+    radial-gradient(ellipse 40% 40% at 70% 45%, rgba(157, 255, 63, 0.22), transparent 60%),
+    linear-gradient(180deg, rgba(5, 7, 4, 0) 40%, var(--vx-bg) 96%);
+}
+
+.venox .vx-num {
+  font-family: var(--font-geist-mono), monospace;
+  letter-spacing: 0.08em;
+}
+
+.venox .vx-footer-link {
+  color: var(--vx-muted);
+  font-size: 13px;
+  transition: color 0.2s ease;
+  display: inline-block;
+  padding: 3px 0;
+}
+.venox .vx-footer-link:hover {
+  color: var(--vx-lime);
+}
+
+.venox .vx-marquee {
+  overflow: hidden;
+  position: relative;
+  mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+}
+
+.venox .vx-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: vx-marquee 36s linear infinite;
+}
+
+.venox .vx-marquee:hover .vx-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes vx-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.venox .vx-hud-corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-color: rgba(157, 255, 63, 0.4);
+  border-style: solid;
+  border-width: 0;
+  pointer-events: none;
+}
+
+.venox .vx-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(157, 255, 63, 0.5), transparent);
+  animation: vx-scan 7s linear infinite;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+@keyframes vx-scan {
+  0% {
+    top: 8%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.5;
+  }
+  88% {
+    opacity: 0.5;
+  }
+  100% {
+    top: 92%;
+    opacity: 0;
+  }
+}
+
+.venox .vx-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--vx-lime);
+  box-shadow: 0 0 0 0 rgba(157, 255, 63, 0.6);
+  animation: vx-pulse 2.2s ease-out infinite;
+}
+
+@keyframes vx-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(157, 255, 63, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 9px rgba(157, 255, 63, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(157, 255, 63, 0);
+  }
+}
+
+.venox .vx-watermark {
+  font-size: clamp(4rem, 14vw, 12rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(157, 255, 63, 0.12);
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+}

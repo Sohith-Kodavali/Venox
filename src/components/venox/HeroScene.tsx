@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useLayoutEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Grid, Instance, Instances, Text3D } from "@react-three/drei";
 import * as THREE from "three";
@@ -73,7 +73,7 @@ function Core() {
   const vMesh = useRef<THREE.Mesh>(null);
   const vGlow = useRef<THREE.Mesh>(null);
   const hoverLight = useRef<THREE.PointLight>(null);
-  const [hovered, setHovered] = useState(false);
+  const hovered = useRef(false);
 
   useLayoutEffect(() => {
     const g = vMesh.current?.geometry;
@@ -106,24 +106,19 @@ function Core() {
     if (group.current) group.current.position.y = 1.25 + Math.sin(t * 1.1) * 0.09;
     if (vMesh.current) {
       const mat = vMesh.current.material as THREE.MeshStandardMaterial;
-      mat.emissiveIntensity = THREE.MathUtils.lerp(mat.emissiveIntensity, hovered ? 2.4 : 1.0, 0.08);
+      mat.emissiveIntensity = THREE.MathUtils.lerp(mat.emissiveIntensity, hovered.current ? 2.4 : 1.0, 0.08);
     }
     if (vGlow.current) {
       const mat = vGlow.current.material as THREE.MeshBasicMaterial;
-      mat.opacity = THREE.MathUtils.lerp(mat.opacity, hovered ? 0.65 : 0.35, 0.08);
+      mat.opacity = THREE.MathUtils.lerp(mat.opacity, hovered.current ? 0.65 : 0.35, 0.08);
     }
     if (hoverLight.current) {
-      hoverLight.current.intensity = THREE.MathUtils.lerp(hoverLight.current.intensity, hovered ? 55 : 0, 0.08);
+      hoverLight.current.intensity = THREE.MathUtils.lerp(hoverLight.current.intensity, hovered.current ? 55 : 0, 0.08);
     }
   });
 
   return (
-    <group
-      ref={group}
-      position={[0, 1.25, 0]}
-      onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = "pointer"; }}
-      onPointerOut={() => { setHovered(false); document.body.style.cursor = "default"; }}
-    >
+    <group ref={group} position={[0, 1.25, 0]}>
       <mesh>
         <boxGeometry args={[1.55, 1.55, 1.55]} />
         <meshStandardMaterial color="#1a2b0d" emissive={LIME} emissiveIntensity={1} roughness={0.35} metalness={0.4} />
@@ -133,7 +128,7 @@ function Core() {
         <meshBasicMaterial color={LIME} wireframe transparent opacity={0.32} />
       </mesh>
       <Suspense fallback={null}>
-        <group position={[0, -0.02, 0]}>
+        <group position={[0, 0.88, 0]}>
           <Text3D
             ref={vMesh}
             font={FONT}
@@ -144,6 +139,8 @@ function Core() {
             bevelSize={0.025}
             bevelSegments={3}
             curveSegments={6}
+            onPointerOver={(e: any) => { e.stopPropagation(); hovered.current = true; }}
+            onPointerOut={() => { hovered.current = false; }}
           >
             V
             <meshStandardMaterial color="#1a2b0d" emissive={LIME} emissiveIntensity={1.0} metalness={0.7} roughness={0.2} />

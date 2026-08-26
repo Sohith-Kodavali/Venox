@@ -53,11 +53,11 @@ export default function Disciplines() {
         <div className="grid md:grid-cols-3 gap-5">
           {CARDS.map((c, i) => (
             <Reveal key={c.num} delay={i * 0.12}>
-              <div className="vx-card flex flex-col h-full min-h-[400px] group">
+              <div className="vx-card vx-card-light flex flex-col h-full min-h-[400px] group">
                 <div className="relative p-8 pb-0 flex-1">
                   <div className="absolute inset-x-0 top-0 h-24 opacity-60 group-hover:opacity-100 transition-opacity duration-500">
                     <WaveCanvas
-                      color="#9dff3f"
+                      color="#5a7a1e"
                       layers={2}
                       speed={c.wave.speed}
                       amplitude={c.wave.amplitude}
@@ -65,14 +65,14 @@ export default function Disciplines() {
                     />
                   </div>
                   <div className="relative">
-                    <span className="vx-num text-[26px] text-[#9dff3f]">{c.num}</span>
-                    <h3 className="vx-h3 mt-4 text-white">{c.title}</h3>
-                    <p className="mt-2 text-[10px] font-mono tracking-[0.14em] uppercase text-[#6f7a66]">{c.tags}</p>
-                    <p className="mt-5 text-[13px] leading-relaxed text-[#9aa590] max-w-[30ch]">{c.desc}</p>
+                    <span className="vx-num text-[26px] text-[#5a7a1e]">{c.num}</span>
+                    <h3 className="vx-h3 mt-4 text-[#10150c]">{c.title}</h3>
+                    <p className="mt-2 text-[10px] font-mono tracking-[0.14em] uppercase text-[#77816a]">{c.tags}</p>
+                    <p className="mt-5 text-[13px] leading-relaxed text-[#4c5544] max-w-[30ch]">{c.desc}</p>
                   </div>
                 </div>
                 <div className="relative p-8 pt-4">
-                  <ArrowLink href="#contact">Explore</ArrowLink>
+                  <ArrowLink href="#contact" dark>Explore</ArrowLink>
                 </div>
               </div>
             </Reveal>

@@ -4,14 +4,14 @@ import type { ReactNode } from "react";
 
 function IconPoly() {
   return (
-    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9dff3f" strokeWidth="1.1" aria-hidden="true">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#5a7a1e" strokeWidth="1.1" aria-hidden="true">
       <path d="M12 2.5 20 7v10l-8 4.5L4 17V7l8-4.5ZM12 2.5v19M4 7l16 10M20 7 4 17" />
     </svg>
   );
 }
 function IconTeam() {
   return (
-    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9dff3f" strokeWidth="1.1" aria-hidden="true">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#5a7a1e" strokeWidth="1.1" aria-hidden="true">
       <circle cx="9" cy="8" r="3" />
       <path d="M3.5 19.5c0-3 2.5-5 5.5-5s5.5 2 5.5 5" />
       <circle cx="17" cy="9.5" r="2.2" />
@@ -21,7 +21,7 @@ function IconTeam() {
 }
 function IconNodes() {
   return (
-    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9dff3f" strokeWidth="1.1" aria-hidden="true">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#5a7a1e" strokeWidth="1.1" aria-hidden="true">
       <circle cx="6" cy="6" r="2.4" />
       <circle cx="18" cy="8" r="2.4" />
       <circle cx="10" cy="18" r="2.4" />
@@ -31,7 +31,7 @@ function IconNodes() {
 }
 function IconGear() {
   return (
-    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9dff3f" strokeWidth="1.1" aria-hidden="true">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#5a7a1e" strokeWidth="1.1" aria-hidden="true">
       <circle cx="12" cy="12" r="3" />
       <path d="M12 2.8v3M12 18.2v3M2.8 12h3M18.2 12h3M5.5 5.5l2.1 2.1M16.4 16.4l2.1 2.1M18.5 5.5l-2.1 2.1M7.6 16.4l-2.1 2.1" />
     </svg>
@@ -89,13 +89,13 @@ export default function Engagement() {
         <div className="grid sm:grid-cols-2 gap-5">
           {MODELS.map((m, i) => (
             <Reveal key={m.title} delay={i * 0.1}>
-              <div className="vx-card p-8 flex flex-col min-h-[240px] group">
+              <div className="vx-card vx-card-light p-8 flex flex-col min-h-[240px] group">
                 <div className="mb-6 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
                   {m.icon}
                 </div>
-                <h3 className="text-[15px] font-semibold text-white leading-snug">{m.title}</h3>
-                <p className="mt-3 text-[12.5px] leading-relaxed text-[#9aa590]">{m.desc}</p>
-                <span className="mt-auto pt-5 vx-num text-[10px] text-[#3c4534] group-hover:text-[#9dff3f] transition-colors">
+                <h3 className="text-[15px] font-semibold text-[#10150c] leading-snug">{m.title}</h3>
+                <p className="mt-3 text-[12.5px] leading-relaxed text-[#4c5544]">{m.desc}</p>
+                <span className="mt-auto pt-5 vx-num text-[10px] text-[#9aa38f] group-hover:text-[#5a7a1e] transition-colors">
                   0{i + 1}
                 </span>
               </div>

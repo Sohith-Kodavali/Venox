@@ -128,36 +128,36 @@ function Core() {
         <meshBasicMaterial color={LIME} wireframe transparent opacity={0.32} />
       </mesh>
       <Suspense fallback={null}>
-        <group position={[0, 0.88, 0]}>
+        <group position={[0, 0.82, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <Text3D
             ref={vMesh}
             font={FONT}
-            size={0.88}
-            height={0.38}
+            size={0.95}
+            height={0.15}
             bevelEnabled
-            bevelThickness={0.04}
-            bevelSize={0.025}
+            bevelThickness={0.02}
+            bevelSize={0.015}
             bevelSegments={3}
             curveSegments={6}
             onPointerOver={(e: any) => { e.stopPropagation(); hovered.current = true; }}
             onPointerOut={() => { hovered.current = false; }}
           >
             V
-            <meshStandardMaterial color="#1a2b0d" emissive={LIME} emissiveIntensity={1.0} metalness={0.7} roughness={0.2} />
+            <meshStandardMaterial color="#ffffff" emissive="#9dff3f" emissiveIntensity={1.2} metalness={0.3} roughness={0.4} />
           </Text3D>
           <Text3D
             ref={vGlow}
             font={FONT}
-            size={0.94}
-            height={0.34}
+            size={1.02}
+            height={0.12}
             bevelEnabled
-            bevelThickness={0.05}
-            bevelSize={0.035}
+            bevelThickness={0.03}
+            bevelSize={0.02}
             bevelSegments={4}
             curveSegments={6}
           >
             V
-            <meshBasicMaterial color={LIME} transparent opacity={0.35} wireframe blending={THREE.AdditiveBlending} depthWrite={false} />
+            <meshBasicMaterial color="#9dff3f" transparent opacity={0.4} side={THREE.DoubleSide} />
           </Text3D>
         </group>
       </Suspense>

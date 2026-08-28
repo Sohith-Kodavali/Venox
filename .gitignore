@@ -23,4 +23,7 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts.commandcode/
+next-env.d.ts
+
+# workspace metadata
+.commandcode/

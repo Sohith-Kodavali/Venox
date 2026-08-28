@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { VX_LOADED_EVENT } from "./useLoaded";
 
 const LIME = new THREE.Color("#9dff3f");
 const LIME_SOFT = new THREE.Color("#c8ff86");
@@ -345,10 +346,10 @@ export default function HeroBackground() {
 
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
-      antialias: true,
+      antialias: isDesktop,
       powerPreference: "high-performance",
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isDesktop ? 1.75 : 1.3));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isDesktop ? 1.5 : 1.1));
     renderer.setSize(mount.clientWidth, mount.clientHeight);
     renderer.setClearColor(0x000000, 0);
     mount.appendChild(renderer.domElement);
@@ -572,29 +573,60 @@ export default function HeroBackground() {
     let running = false;
     let assemble = 0;
 
+    // Cinematic camera dolly: starts CLOSE (mid-scene) and pulls BACK
+    // to reveal, coordinated with the loading-screen zoom-through exit.
+    const CAM_START = { x: 0, y: 4.6, z: isDesktop ? 8 : 6.5 };
+    const CAM_END = { x: 0, y: 3.2, z: isDesktop ? 16 : 13 };
+    const WORLD_END_X = worldOriginX;
+    const WORLD_END_Y = 2.3;
+
+    let entryStarted = false;
+    let entryStartT = 0;
+    const ENTRY_DUR = 2.2;
+
+    const triggerEntry = () => {
+      if (entryStarted) return;
+      entryStarted = true;
+      entryStartT = clock.getElapsedTime();
+    };
+    window.addEventListener(VX_LOADED_EVENT, triggerEntry);
+    if (reduceMotion) triggerEntry();
+    // Safety fallback so scene doesn't stay frozen if the event never fires
+    const entryFallback = window.setTimeout(triggerEntry, 3400);
+
     const ndc = new THREE.Vector3();
     const worldMouse = new THREE.Vector3();
 
     const renderFrame = () => {
       const t = clock.getElapsedTime();
-      assemble = Math.min(1, assemble + (reduceMotion ? 0.02 : 0.006));
-      const a = easeOutCubic(assemble);
+      const dtEntry = entryStarted ? Math.min(1, (t - entryStartT) / ENTRY_DUR) : 0;
+      const entry = easeOutCubic(dtEntry);
+      assemble = entry;
+      const a = entry;
 
       smoothPointer.x += (pointer.x - smoothPointer.x) * 0.05;
       smoothPointer.y += (pointer.y - smoothPointer.y) * 0.05;
 
-      // Camera + world parallax
-      camera.position.x = smoothPointer.x * 1.5;
-      camera.position.y = 3.2 + smoothPointer.y * 0.8;
-      camTarget.set(
-        worldOriginX + smoothPointer.x * 0.6,
-        2.6 + smoothPointer.y * 0.4,
-        0
-      );
+      // Base camera pose interpolates from CAM_START → CAM_END, then adds parallax
+      const baseCamX = CAM_START.x + (CAM_END.x - CAM_START.x) * entry;
+      const baseCamY = CAM_START.y + (CAM_END.y - CAM_START.y) * entry;
+      const baseCamZ = CAM_START.z + (CAM_END.z - CAM_START.z) * entry;
+      camera.position.x = baseCamX + smoothPointer.x * 1.5 * entry;
+      camera.position.y = baseCamY + smoothPointer.y * 0.8 * entry;
+      camera.position.z = baseCamZ;
+
+      // Look target also interpolates so composition frames well during dolly
+      const tgtX = worldOriginX * entry + smoothPointer.x * 0.6 * entry;
+      const tgtY = 2.6 * entry + smoothPointer.y * 0.4 * entry;
+      camTarget.set(tgtX, tgtY, 0);
       camera.lookAt(camTarget);
-      world.position.x = worldOriginX + smoothPointer.x * 0.25;
-      world.position.y = 2.3 + smoothPointer.y * 0.2;
-      world.rotation.y = smoothPointer.x * 0.06 + Math.sin(t * 0.06) * 0.012;
+
+      // World also gently zooms UP from smaller scale during entry
+      const worldScale = 0.82 + 0.18 * entry;
+      world.scale.setScalar(worldScale);
+      world.position.x = WORLD_END_X + smoothPointer.x * 0.25 * entry;
+      world.position.y = WORLD_END_Y + smoothPointer.y * 0.2 * entry;
+      world.rotation.y = smoothPointer.x * 0.06 * entry + Math.sin(t * 0.06) * 0.012;
 
       // Project cursor to world plane at world z=0
       ndc.set(smoothPointer.x, smoothPointer.y, 0.5).unproject(camera);
@@ -608,11 +640,7 @@ export default function HeroBackground() {
         localMy = worldMouse.y - world.position.y;
       }
       nucleusMat.uniforms.uMouse.value.set(localMx, localMy, 0);
-      constMat.uniforms.uMouse.value.set(
-        localMx + worldOriginX,
-        localMy + 2.3,
-        0
-      );
+      constMat.uniforms.uMouse.value.set(worldMouse.x, worldMouse.y, 0);
 
       nucleusMat.uniforms.uTime.value = t;
       nucleusMat.uniforms.uAssemble.value = a;
@@ -623,10 +651,10 @@ export default function HeroBackground() {
         rm.uniforms.uAssemble.value = a;
       }
 
-      // Central bloom breathing
+      // Central bloom breathing — hidden until the entry starts revealing
       const bp = 0.85 + Math.sin(t * 1.2) * 0.08;
-      bloomOuter.material.opacity = bp * 0.85;
-      bloomInner.material.opacity = 0.9 + Math.sin(t * 2.0) * 0.1;
+      bloomOuter.material.opacity = entry * bp * 0.85;
+      bloomInner.material.opacity = entry * (0.9 + Math.sin(t * 2.0) * 0.1);
       const sOuter = (isDesktop ? 14 : 9) * (0.98 + Math.sin(t * 0.9) * 0.03);
       bloomOuter.scale.set(sOuter, sOuter, 1);
 
@@ -655,7 +683,8 @@ export default function HeroBackground() {
     io.observe(mount);
 
     if (reduceMotion) {
-      assemble = 1;
+      entryStarted = true;
+      entryStartT = -ENTRY_DUR; // clamp to fully-assembled from frame one
       renderFrame();
     } else {
       start();
@@ -665,6 +694,8 @@ export default function HeroBackground() {
       stop();
       ro.disconnect();
       io.disconnect();
+      window.removeEventListener(VX_LOADED_EVENT, triggerEntry);
+      window.clearTimeout(entryFallback);
       if (!isCoarse) window.removeEventListener("pointermove", onPointerMove);
 
       nucleusGeom.dispose();

@@ -3,11 +3,14 @@
 import { motion } from "framer-motion";
 import { ArrowDown, GhostButton, LimeButton } from "./ui";
 import HeroBackground from "./HeroBackground";
+import { useLoaded } from "./useLoaded";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 const LINES = ["We build the", "systems behind", "ambitious", "businesses"];
 
 export default function Hero() {
+  const loaded = useLoaded();
+
   return (
     <section id="top" className="relative min-h-[100svh] flex flex-col overflow-hidden vx-grain">
       <div className="absolute inset-0 vx-grid-bg" />
@@ -25,9 +28,9 @@ export default function Hero() {
         <div className="vx-container w-full pt-32 pb-20">
           <motion.p
             className="vx-tag mb-8"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.15, ease }}
+            initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
+            animate={loaded ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 18, filter: "blur(6px)" }}
+            transition={{ duration: 0.85, delay: 0.15, ease }}
           >
             Technology &amp; Digital Engineering Partner
           </motion.p>
@@ -36,10 +39,14 @@ export default function Hero() {
             {LINES.map((line, i) => (
               <span key={line} className="block overflow-hidden pb-[0.12em] -mb-[0.12em]">
                 <motion.span
-                  className="block"
-                  initial={{ y: "112%" }}
-                  animate={{ y: 0 }}
-                  transition={{ duration: 0.9, delay: 0.3 + i * 0.11, ease }}
+                  className="block will-change-transform"
+                  initial={{ y: "115%", scale: 1.04 }}
+                  animate={loaded ? { y: 0, scale: 1 } : { y: "115%", scale: 1.04 }}
+                  transition={{
+                    duration: 1.05,
+                    delay: 0.28 + i * 0.13,
+                    ease,
+                  }}
                 >
                   {line}
                   {i === LINES.length - 1 && <span className="text-[#9dff3f]">.</span>}
@@ -51,8 +58,8 @@ export default function Hero() {
           <motion.p
             className="mt-8 max-w-[400px] text-[15px] leading-relaxed text-[#9aa590]"
             initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.95, ease }}
+            animate={loaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+            transition={{ duration: 0.8, delay: 1.05, ease }}
           >
             Software engineering, AI, data and cloud capabilities delivered as one engineering partner.
           </motion.p>
@@ -60,8 +67,8 @@ export default function Hero() {
           <motion.div
             className="mt-10 flex flex-wrap items-center gap-4"
             initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 1.1, ease }}
+            animate={loaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+            transition={{ duration: 0.8, delay: 1.2, ease }}
           >
             <LimeButton href="#capabilities">Explore Capabilities</LimeButton>
             <GhostButton href="#contact">Start a Conversation</GhostButton>
@@ -72,8 +79,8 @@ export default function Hero() {
       <motion.div
         className="relative z-10 vx-container pb-8 flex items-center justify-between text-[10px] font-mono tracking-[0.22em] uppercase text-[#6f7a66]"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.5 }}
+        animate={loaded ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 1, delay: 1.55 }}
       >
         <span className="flex items-center gap-3">
           <span className="vx-pulse-dot" />

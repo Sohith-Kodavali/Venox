@@ -8,8 +8,13 @@ import * as THREE from "three";
 const LIME = "#9dff3f";
 const FONT = "/fonts/helvetiker_bold.typeface.json";
 const SLOTS = [-5.6, -2.8, 0, 2.8, 5.6];
-const CHARS = ["V", "E", "N", "O", "X"];
+const CHARS = ["V", "E", "X", "O", "N"];
 const FLOOR_Y = -1.7;
+
+function rand(seed: number) {
+  const x = Math.sin(seed * 12.9898) * 43758.5453;
+  return x - Math.floor(x);
+}
 
 function smoothstep(p: number, a: number, b: number) {
   const t = Math.min(Math.max((p - a) / (b - a), 0), 1);
@@ -94,9 +99,10 @@ function Particles({ count, spread, z, size, opacity }: { count: number; spread:
   const positions = useMemo(() => {
     const arr = new Float32Array(count * 3);
     for (let k = 0; k < count; k++) {
-      arr[k * 3] = (Math.random() - 0.5) * spread;
-      arr[k * 3 + 1] = (Math.random() - 0.5) * spread * 0.55;
-      arr[k * 3 + 2] = z + (Math.random() - 0.5) * 4;
+      const seed = k * 2.1 + z * 7.3;
+      arr[k * 3] = (rand(seed + 1) - 0.5) * spread;
+      arr[k * 3 + 1] = (rand(seed + 2) - 0.5) * spread * 0.55;
+      arr[k * 3 + 2] = z + (rand(seed + 3) - 0.5) * 4;
     }
     return arr;
   }, [count, spread, z]);

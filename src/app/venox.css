@@ -1,3 +1,4 @@
+@layer components {
 .venox {
   --vx-bg: #050704;
   --vx-bg-2: #080b07;
@@ -251,6 +252,50 @@ html:has(.venox) {
     linear-gradient(180deg, rgba(5, 7, 4, 0) 40%, var(--vx-bg) 96%);
 }
 
+.venox .vx-hero-viz-fallback::before,
+.venox .vx-hero-viz-fallback::after {
+  content: "";
+  position: absolute;
+  left: 68%;
+  top: 44%;
+  border: 1px solid rgba(157, 255, 63, 0.22);
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+}
+
+.venox .vx-hero-viz-fallback::before {
+  width: min(58vw, 460px);
+  height: min(58vw, 460px);
+}
+
+.venox .vx-hero-viz-fallback::after {
+  width: min(78vw, 620px);
+  height: min(78vw, 620px);
+  border-color: rgba(157, 255, 63, 0.12);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .venox .vx-hero-viz-fallback::before,
+  .venox .vx-hero-viz-fallback::after {
+    animation: vx-orbit-pulse 6s ease-in-out infinite;
+  }
+  .venox .vx-hero-viz-fallback::after {
+    animation-delay: -3s;
+  }
+}
+
+@keyframes vx-orbit-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.04);
+  }
+}
+
 .venox .vx-num {
   font-family: var(--font-geist-mono), monospace;
   letter-spacing: 0.08em;
@@ -358,4 +403,5 @@ html:has(.venox) {
   user-select: none;
   pointer-events: none;
   white-space: nowrap;
+}
 }

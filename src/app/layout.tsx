@@ -6,7 +6,7 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Venox Solutions Inc — Technology & Digital Engineering Partner",
+  title: "Vexon Solutions Inc — Technology & Digital Engineering Partner",
   description:
     "Software engineering, AI, data and cloud capabilities delivered as one engineering partner. United States • India Delivery Team.",
   icons: { icon: "/favicon.svg" },

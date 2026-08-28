@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { ArrowDown, GhostButton, LimeButton } from "./ui";
+import { useCanRenderScene } from "./useSceneGate";
 
 const HeroScene = dynamic(() => import("./HeroScene"), { ssr: false });
 
@@ -10,13 +11,17 @@ const ease = [0.16, 1, 0.3, 1] as const;
 const LINES = ["We build the", "systems behind", "ambitious", "businesses"];
 
 export default function Hero() {
+  const canRenderScene = useCanRenderScene();
+
   return (
     <section id="top" className="relative min-h-[100svh] flex flex-col overflow-hidden vx-grain">
       <div className="absolute inset-0 vx-grid-bg" />
       <div className="absolute inset-0 vx-hero-viz-fallback" />
-      <div className="absolute inset-0">
-        <HeroScene />
-      </div>
+      {canRenderScene && (
+        <div className="absolute inset-0">
+          <HeroScene />
+        </div>
+      )}
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(90deg,rgba(5,7,4,0.82)_0%,rgba(5,7,4,0.45)_34%,rgba(5,7,4,0.05)_62%,rgba(5,7,4,0)_78%)]" />
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(180deg,rgba(5,7,4,0.55)_0%,rgba(5,7,4,0)_26%,rgba(5,7,4,0)_58%,rgba(5,7,4,0.96)_100%)]" />
       <div className="vx-scanline" />

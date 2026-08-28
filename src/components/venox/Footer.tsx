@@ -83,13 +83,15 @@ export default function Footer() {
           <Reveal delay={0.24}>
             <div>
               <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-white mb-4">Get in Touch</p>
-              <a href="mailto:hello@venoxsolutions.com" className="vx-footer-link">
-                hello@venoxsolutions.com
+              <a href="mailto:support@vexonsol.com" className="vx-footer-link">
+                support@vexonsol.com
               </a>
-              <a href="tel:+12134467750" className="vx-footer-link">
-                +1 (213) 446-7750
-              </a>
-              <a href="mailto:hello@venoxsolutions.com" className="vx-btn vx-btn-lime !py-2.5 !px-4 !text-[10px] mt-4">
+              <p className="mt-1 text-[12.5px] leading-relaxed text-[#9aa590] max-w-[220px]">
+                13809 Research Blvd STE 500
+                <br />
+                Austin, TX 78750
+              </p>
+              <a href="mailto:support@vexonsol.com" className="vx-btn vx-btn-lime !py-2.5 !px-4 !text-[10px] mt-4">
                 Let&apos;s Talk
                 <ArrowRight size={12} />
               </a>
@@ -99,12 +101,12 @@ export default function Footer() {
       </div>
 
       <div className="relative vx-container overflow-hidden">
-        <p className="vx-watermark text-center translate-y-[28%]">VENOX</p>
+        <p className="vx-watermark text-center translate-y-[28%]">VEXON</p>
       </div>
 
       <div className="relative border-t border-[rgba(255,255,255,0.05)] bg-[#030502]">
         <div className="vx-container py-5 flex flex-wrap items-center justify-between gap-4 text-[10px] font-mono tracking-[0.08em] text-[#4d573f]">
-          <span>© 2025 Venox Solutions Inc. All rights reserved.</span>
+          <span>© 2026 Vexon Solutions Inc. All rights reserved.</span>
           <span className="flex items-center gap-6">
             <a href="#top" className="hover:text-[#9aa590]">Privacy Policy</a>
             <a href="#top" className="hover:text-[#9aa590]">Terms of Service</a>

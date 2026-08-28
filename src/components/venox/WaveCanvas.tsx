@@ -27,10 +27,14 @@ export default function WaveCanvas({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     let raf = 0;
     let w = 0;
     let h = 0;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let visible = false;
+    let startTime: number | null = null;
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
@@ -44,7 +48,7 @@ export default function WaveCanvas({
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
-    const draw = (t: number) => {
+    const render = (t: number) => {
       ctx.clearRect(0, 0, w, h);
       const time = (t / 1000) * speed;
       for (let l = 0; l < layers; l++) {
@@ -88,13 +92,37 @@ export default function WaveCanvas({
         }
       }
       ctx.globalAlpha = 1;
-      raf = requestAnimationFrame(draw);
     };
-    raf = requestAnimationFrame(draw);
+
+    const draw = (t: number) => {
+      if (startTime === null) startTime = t;
+      render(t - startTime);
+      if (!reduceMotion) raf = requestAnimationFrame(draw);
+    };
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        const nowVisible = entry.isIntersecting;
+        if (nowVisible && !visible) {
+          visible = true;
+          startTime = null;
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(draw);
+        } else if (!nowVisible && visible) {
+          visible = false;
+          cancelAnimationFrame(raf);
+        }
+      },
+      { rootMargin: "120px" }
+    );
+    io.observe(canvas);
+
+    if (reduceMotion) render(0);
 
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
+      io.disconnect();
     };
   }, [color, layers, speed, amplitude, mode]);
 

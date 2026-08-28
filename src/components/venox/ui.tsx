@@ -55,7 +55,7 @@ export function Logo({ compact = false }: { compact?: boolean }) {
         <path d="M9 4l7 11.6L23 4h-4l-3 5.2L13 4H9z" fill="#9dff3f" opacity="0.55" />
       </svg>
       <span className="leading-none">
-        <span className="block text-[17px] font-bold tracking-[0.28em] text-white">VENOX</span>
+        <span className="block text-[17px] font-bold tracking-[0.28em] text-white">VEXON</span>
         {!compact && (
           <span className="block text-[8px] tracking-[0.42em] text-[#9aa590] mt-1">SOLUTIONS INC</span>
         )}

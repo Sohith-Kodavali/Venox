@@ -35,7 +35,7 @@ export default function CtaSection() {
               Let&apos;s discuss your ideas and explore how we can build what&apos;s next—together.
             </p>
             <div className="mt-8">
-              <LimeButton href="mailto:hello@venoxsolutions.com">Start a Conversation</LimeButton>
+              <LimeButton href="mailto:support@vexonsol.com">Start a Conversation</LimeButton>
             </div>
           </div>
         </Reveal>

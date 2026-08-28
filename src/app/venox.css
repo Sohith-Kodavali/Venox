@@ -289,54 +289,48 @@ html:has(.venox) ::-webkit-scrollbar-thumb:hover {
   background-size: 56px 56px;
 }
 
-.venox .vx-hero-viz-fallback {
+.venox .vx-hero-ambient {
   background:
-    radial-gradient(ellipse 60% 55% at 68% 42%, rgba(157, 255, 63, 0.16), transparent 65%),
-    radial-gradient(ellipse 40% 40% at 70% 45%, rgba(157, 255, 63, 0.22), transparent 60%),
+    radial-gradient(ellipse 60% 55% at 68% 42%, rgba(157, 255, 63, 0.1), transparent 65%),
+    radial-gradient(ellipse 40% 40% at 70% 45%, rgba(45, 212, 191, 0.12), transparent 60%),
     linear-gradient(180deg, rgba(5, 7, 4, 0) 40%, var(--vx-bg) 96%);
 }
 
-.venox .vx-hero-viz-fallback::before,
-.venox .vx-hero-viz-fallback::after {
-  content: "";
+.venox .vx-sphere-core {
   position: absolute;
-  left: 68%;
-  top: 44%;
-  border: 1px solid rgba(157, 255, 63, 0.22);
   border-radius: 9999px;
-  transform: translate(-50%, -50%);
+  overflow: hidden;
+  pointer-events: none;
 }
 
-.venox .vx-hero-viz-fallback::before {
-  width: min(58vw, 460px);
-  height: min(58vw, 460px);
+.venox .vx-sphere-shade {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 32% 26%, rgba(226, 255, 210, 0.85), transparent 38%),
+    radial-gradient(circle at 40% 32%, rgba(157, 255, 63, 0.35), transparent 52%),
+    radial-gradient(circle at 64% 70%, rgba(12, 40, 32, 0.96), rgba(4, 8, 6, 1) 72%);
 }
 
-.venox .vx-hero-viz-fallback::after {
-  width: min(78vw, 620px);
-  height: min(78vw, 620px);
-  border-color: rgba(157, 255, 63, 0.12);
+.venox .vx-sphere-sheen {
+  position: absolute;
+  inset: -25%;
+  background: conic-gradient(
+    from 200deg at 50% 50%,
+    rgba(157, 255, 63, 0.22),
+    rgba(45, 212, 191, 0.16),
+    rgba(157, 255, 63, 0.22)
+  );
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .venox .vx-hero-viz-fallback::before,
-  .venox .vx-hero-viz-fallback::after {
-    animation: vx-orbit-pulse 6s ease-in-out infinite;
-  }
-  .venox .vx-hero-viz-fallback::after {
-    animation-delay: -3s;
+  .venox .vx-sphere-sheen {
+    animation: vx-sphere-spin 60s linear infinite;
   }
 }
 
-@keyframes vx-orbit-pulse {
-  0%,
-  100% {
-    opacity: 0.5;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    opacity: 0.9;
-    transform: translate(-50%, -50%) scale(1.04);
+@keyframes vx-sphere-spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 

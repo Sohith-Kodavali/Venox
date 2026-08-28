@@ -1,5 +1,6 @@
 import "./venox.css";
 import { MotionConfig } from "framer-motion";
+import LoadingScreen from "@/components/venox/LoadingScreen";
 import Navbar from "@/components/venox/Navbar";
 import Hero from "@/components/venox/Hero";
 import CapabilityStrip from "@/components/venox/CapabilityStrip";
@@ -17,6 +18,7 @@ export default function Home() {
   return (
     <MotionConfig reducedMotion="user">
       <div className="venox">
+        <LoadingScreen />
         <Navbar />
         <main>
           <Hero />

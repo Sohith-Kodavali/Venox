@@ -12,8 +12,8 @@ export default function Hero() {
     <section id="top" className="relative min-h-[100svh] flex flex-col overflow-hidden vx-grain">
       <div className="absolute inset-0 vx-grid-bg" />
       <HeroBackground />
-      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(90deg,rgba(5,7,4,0.82)_0%,rgba(5,7,4,0.45)_34%,rgba(5,7,4,0.05)_62%,rgba(5,7,4,0)_78%)]" />
-      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(180deg,rgba(5,7,4,0.55)_0%,rgba(5,7,4,0)_26%,rgba(5,7,4,0)_58%,rgba(5,7,4,0.96)_100%)]" />
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(96deg,rgba(9,30,22,0.72)_0%,rgba(11,36,26,0.4)_36%,rgba(15,52,38,0.06)_62%,rgba(15,52,38,0)_78%)]" />
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(180deg,rgba(11,36,26,0.4)_0%,rgba(11,36,26,0)_24%,rgba(11,36,26,0)_56%,rgba(6,18,12,0.92)_100%)]" />
       <div className="vx-scanline" />
 
       <div className="absolute top-24 left-6 vx-hud-corner !border-t-[1px] !border-l-[1px] hidden md:block" />

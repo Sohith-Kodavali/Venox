@@ -289,23 +289,114 @@ html:has(.venox) ::-webkit-scrollbar-thumb:hover {
   background-size: 56px 56px;
 }
 
+.venox .vx-hero-base {
+  background:
+    radial-gradient(120% 90% at 72% 40%, #1c5c40 0%, #144230 18%, #0d3226 42%, #0a2418 70%, #082018 100%),
+    linear-gradient(180deg, #0d3025 0%, #0a2418 100%);
+}
+
 .venox .vx-hero-ambient {
   background:
-    radial-gradient(ellipse 55% 50% at 70% 44%, rgba(157, 255, 63, 0.09), transparent 68%),
-    radial-gradient(ellipse 35% 38% at 72% 46%, rgba(16, 90, 62, 0.22), transparent 62%),
-    linear-gradient(180deg, rgba(5, 7, 4, 0) 40%, var(--vx-bg) 96%);
+    radial-gradient(ellipse 55% 50% at 72% 44%, rgba(157, 255, 63, 0.16), transparent 66%),
+    radial-gradient(ellipse 35% 38% at 74% 42%, rgba(79, 251, 198, 0.18), transparent 60%),
+    radial-gradient(ellipse 65% 40% at 24% 78%, rgba(29, 96, 68, 0.35), transparent 65%),
+    radial-gradient(ellipse 50% 30% at 82% 18%, rgba(180, 255, 128, 0.09), transparent 62%);
+  mix-blend-mode: screen;
+}
+
+.venox .vx-hero-aurora {
+  position: absolute;
+  inset: -20% -10% -20% -10%;
+  pointer-events: none;
+  filter: blur(80px) saturate(115%);
+  opacity: 0.85;
+  mix-blend-mode: screen;
+}
+
+.venox .vx-hero-aurora-blob {
+  position: absolute;
+  border-radius: 999px;
+}
+
+.venox .vx-hero-aurora-blob.a {
+  width: 46vw;
+  height: 46vw;
+  right: 6%;
+  top: 4%;
+  background: radial-gradient(circle at 45% 45%, rgba(157, 255, 63, 0.42), rgba(157, 255, 63, 0.12) 40%, transparent 68%);
+  animation: vx-aurora-float-a 22s ease-in-out infinite alternate;
+}
+
+.venox .vx-hero-aurora-blob.b {
+  width: 40vw;
+  height: 40vw;
+  right: 28%;
+  top: 30%;
+  background: radial-gradient(circle at 55% 55%, rgba(79, 251, 198, 0.34), rgba(45, 200, 150, 0.1) 42%, transparent 68%);
+  animation: vx-aurora-float-b 30s ease-in-out infinite alternate;
+}
+
+.venox .vx-hero-aurora-blob.c {
+  width: 52vw;
+  height: 30vw;
+  left: -8%;
+  bottom: -10%;
+  background: radial-gradient(circle at 60% 45%, rgba(45, 138, 92, 0.4), rgba(29, 96, 68, 0.12) 50%, transparent 72%);
+  animation: vx-aurora-float-c 26s ease-in-out infinite alternate;
+}
+
+.venox .vx-hero-aurora-blob.d {
+  width: 28vw;
+  height: 28vw;
+  right: 12%;
+  bottom: 8%;
+  background: radial-gradient(circle at 50% 50%, rgba(230, 255, 184, 0.22), rgba(157, 255, 63, 0.08) 45%, transparent 68%);
+  animation: vx-aurora-float-d 18s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .venox .vx-hero-aurora-blob { animation: none; }
+}
+
+@keyframes vx-aurora-float-a {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(-3%, 4%, 0) scale(1.08); }
+}
+@keyframes vx-aurora-float-b {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(5%, -3%, 0) scale(0.92); }
+}
+@keyframes vx-aurora-float-c {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(4%, -4%, 0) scale(1.1); }
+}
+@keyframes vx-aurora-float-d {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(-4%, -2%, 0) scale(1.05); }
 }
 
 .venox .vx-hero-core-glow {
   background:
-    radial-gradient(circle 14vw at 72% 46%, rgba(157, 255, 63, 0.14), transparent 60%),
-    radial-gradient(circle 8vw at 72% 46%, rgba(230, 255, 184, 0.1), transparent 55%);
+    radial-gradient(circle 18vw at 72% 44%, rgba(157, 255, 63, 0.22), transparent 62%),
+    radial-gradient(circle 10vw at 72% 44%, rgba(230, 255, 184, 0.16), transparent 55%),
+    radial-gradient(circle 6vw at 72% 44%, rgba(255, 255, 255, 0.06), transparent 55%);
   mix-blend-mode: screen;
+  pointer-events: none;
 }
+
+.venox .vx-hero-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 80% at 50% 50%, transparent 40%, rgba(4, 14, 10, 0.55) 100%);
+}
+
 @media (max-width: 767px) {
   .venox .vx-hero-core-glow {
     background:
-      radial-gradient(circle 26vw at 62% 40%, rgba(157, 255, 63, 0.12), transparent 65%);
+      radial-gradient(circle 32vw at 62% 42%, rgba(157, 255, 63, 0.2), transparent 62%),
+      radial-gradient(circle 18vw at 62% 42%, rgba(230, 255, 184, 0.14), transparent 55%);
   }
 }
 

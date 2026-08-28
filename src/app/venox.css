@@ -397,12 +397,20 @@ html:has(.venox) ::-webkit-scrollbar-thumb:hover {
 }
 
 @media (max-width: 767px) {
+  /* Mobile — dramatically calmer center to keep headline area breathable */
   .venox .vx-hero-core-glow {
     background:
-      radial-gradient(circle 32vw at 62% 42%, rgba(157, 255, 63, 0.2), transparent 62%),
-      radial-gradient(circle 18vw at 62% 42%, rgba(230, 255, 184, 0.14), transparent 55%);
+      radial-gradient(circle 22vw at 68% 34%, rgba(157, 255, 63, 0.08), transparent 62%);
   }
-  .venox .vx-hero-aurora-blob { filter: blur(30px) saturate(110%); }
+  .venox .vx-hero-ambient {
+    background:
+      radial-gradient(ellipse 65% 45% at 72% 34%, rgba(157, 255, 63, 0.08), transparent 68%),
+      radial-gradient(ellipse 55% 30% at 22% 82%, rgba(29, 96, 68, 0.22), transparent 65%);
+    opacity: 0.75;
+  }
+  .venox .vx-hero-aurora-blob { filter: blur(30px) saturate(108%); opacity: 0.55; }
+  .venox .vx-hero-aurora-blob.a { width: 56vw; height: 56vw; right: -18%; top: -12%; }
+  .venox .vx-hero-aurora-blob.b { width: 48vw; height: 48vw; right: -18%; top: 8%; }
   .venox .vx-hero-aurora-blob.c,
   .venox .vx-hero-aurora-blob.d { display: none; }
 }

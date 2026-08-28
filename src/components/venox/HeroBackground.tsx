@@ -388,7 +388,8 @@ export default function HeroBackground() {
       color: 0xffffff,
     });
     const bloomOuter = new THREE.Sprite(bloomOuterMat);
-    bloomOuter.scale.set(isDesktop ? 14 : 9, isDesktop ? 14 : 9, 1);
+    const bloomOuterScale = isDesktop ? 14 : 5.5;
+    bloomOuter.scale.set(bloomOuterScale, bloomOuterScale, 1);
     bloomOuter.position.set(0, 0, -1.5);
     world.add(bloomOuter);
 
@@ -401,7 +402,8 @@ export default function HeroBackground() {
       color: 0xdcffb0,
     });
     const bloomInner = new THREE.Sprite(bloomInnerMat);
-    bloomInner.scale.set(isDesktop ? 5.5 : 3.8, isDesktop ? 5.5 : 3.8, 1);
+    const bloomInnerScale = isDesktop ? 5.5 : 2.2;
+    bloomInner.scale.set(bloomInnerScale, bloomInnerScale, 1);
     bloomInner.position.set(0, 0, 0.4);
     world.add(bloomInner);
 
@@ -573,16 +575,17 @@ export default function HeroBackground() {
     let running = false;
     let assemble = 0;
 
-    // Cinematic camera dolly: starts CLOSE (mid-scene) and pulls BACK
-    // to reveal, coordinated with the loading-screen zoom-through exit.
-    const CAM_START = { x: 0, y: 4.6, z: isDesktop ? 8 : 6.5 };
+    // Camera emerges "through" the X: starts already inside the scene,
+    // pulls back subtly to settle. The dramatic zoom is carried by the
+    // loading-screen X-portal exit; the hero just eases into rest.
+    const CAM_START = { x: 0, y: 3.6, z: isDesktop ? 12 : 10.5 };
     const CAM_END = { x: 0, y: 3.2, z: isDesktop ? 16 : 13 };
     const WORLD_END_X = worldOriginX;
     const WORLD_END_Y = 2.3;
 
     let entryStarted = false;
     let entryStartT = 0;
-    const ENTRY_DUR = 2.2;
+    const ENTRY_DUR = 1.8;
 
     const triggerEntry = () => {
       if (entryStarted) return;
@@ -621,8 +624,8 @@ export default function HeroBackground() {
       camTarget.set(tgtX, tgtY, 0);
       camera.lookAt(camTarget);
 
-      // World also gently zooms UP from smaller scale during entry
-      const worldScale = 0.82 + 0.18 * entry;
+      // Subtle world scale — dramatic scaling would fight the X-portal effect
+      const worldScale = 0.94 + 0.06 * entry;
       world.scale.setScalar(worldScale);
       world.position.x = WORLD_END_X + smoothPointer.x * 0.25 * entry;
       world.position.y = WORLD_END_Y + smoothPointer.y * 0.2 * entry;
@@ -653,9 +656,11 @@ export default function HeroBackground() {
 
       // Central bloom breathing — hidden until the entry starts revealing
       const bp = 0.85 + Math.sin(t * 1.2) * 0.08;
-      bloomOuter.material.opacity = entry * bp * 0.85;
-      bloomInner.material.opacity = entry * (0.9 + Math.sin(t * 2.0) * 0.1);
-      const sOuter = (isDesktop ? 14 : 9) * (0.98 + Math.sin(t * 0.9) * 0.03);
+      const outerMult = isDesktop ? 0.85 : 0.42;
+      const innerMult = isDesktop ? 1.0 : 0.55;
+      bloomOuter.material.opacity = entry * bp * outerMult;
+      bloomInner.material.opacity = entry * (0.9 + Math.sin(t * 2.0) * 0.1) * innerMult;
+      const sOuter = bloomOuterScale * (0.98 + Math.sin(t * 0.9) * 0.03);
       bloomOuter.scale.set(sOuter, sOuter, 1);
 
       renderer.render(scene, camera);

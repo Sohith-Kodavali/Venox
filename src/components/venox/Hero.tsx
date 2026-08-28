@@ -30,7 +30,7 @@ export default function Hero() {
             className="vx-tag mb-8"
             initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
             animate={loaded ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 18, filter: "blur(6px)" }}
-            transition={{ duration: 0.85, delay: 0.15, ease }}
+            transition={{ duration: 0.85, delay: 0.7, ease }}
           >
             Technology &amp; Digital Engineering Partner
           </motion.p>
@@ -44,7 +44,7 @@ export default function Hero() {
                   animate={loaded ? { y: 0, scale: 1 } : { y: "115%", scale: 1.04 }}
                   transition={{
                     duration: 1.05,
-                    delay: 0.28 + i * 0.13,
+                    delay: 0.85 + i * 0.13,
                     ease,
                   }}
                 >
@@ -59,7 +59,7 @@ export default function Hero() {
             className="mt-8 max-w-[400px] text-[15px] leading-relaxed text-[#9aa590]"
             initial={{ opacity: 0, y: 24 }}
             animate={loaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-            transition={{ duration: 0.8, delay: 1.05, ease }}
+            transition={{ duration: 0.8, delay: 1.65, ease }}
           >
             Software engineering, AI, data and cloud capabilities delivered as one engineering partner.
           </motion.p>
@@ -68,7 +68,7 @@ export default function Hero() {
             className="mt-10 flex flex-wrap items-center gap-4"
             initial={{ opacity: 0, y: 24 }}
             animate={loaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-            transition={{ duration: 0.8, delay: 1.2, ease }}
+            transition={{ duration: 0.8, delay: 1.8, ease }}
           >
             <LimeButton href="#capabilities">Explore Capabilities</LimeButton>
             <GhostButton href="#contact">Start a Conversation</GhostButton>
@@ -80,7 +80,7 @@ export default function Hero() {
         className="relative z-10 vx-container pb-8 flex items-center justify-between text-[10px] font-mono tracking-[0.22em] uppercase text-[#6f7a66]"
         initial={{ opacity: 0 }}
         animate={loaded ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 1, delay: 1.55 }}
+        transition={{ duration: 1, delay: 2.15 }}
       >
         <span className="flex items-center gap-3">
           <span className="vx-pulse-dot" />

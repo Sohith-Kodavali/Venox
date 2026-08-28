@@ -291,9 +291,22 @@ html:has(.venox) ::-webkit-scrollbar-thumb:hover {
 
 .venox .vx-hero-ambient {
   background:
-    radial-gradient(ellipse 60% 55% at 68% 42%, rgba(157, 255, 63, 0.1), transparent 65%),
-    radial-gradient(ellipse 40% 40% at 70% 45%, rgba(45, 212, 191, 0.12), transparent 60%),
+    radial-gradient(ellipse 55% 50% at 70% 44%, rgba(157, 255, 63, 0.09), transparent 68%),
+    radial-gradient(ellipse 35% 38% at 72% 46%, rgba(16, 90, 62, 0.22), transparent 62%),
     linear-gradient(180deg, rgba(5, 7, 4, 0) 40%, var(--vx-bg) 96%);
+}
+
+.venox .vx-hero-core-glow {
+  background:
+    radial-gradient(circle 14vw at 72% 46%, rgba(157, 255, 63, 0.14), transparent 60%),
+    radial-gradient(circle 8vw at 72% 46%, rgba(230, 255, 184, 0.1), transparent 55%);
+  mix-blend-mode: screen;
+}
+@media (max-width: 767px) {
+  .venox .vx-hero-core-glow {
+    background:
+      radial-gradient(circle 26vw at 62% 40%, rgba(157, 255, 63, 0.12), transparent 65%);
+  }
 }
 
 .venox .vx-sphere-core {

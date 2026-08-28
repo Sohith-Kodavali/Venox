@@ -1,4 +1,5 @@
 import "./venox.css";
+import { MotionConfig } from "framer-motion";
 import Navbar from "@/components/venox/Navbar";
 import Hero from "@/components/venox/Hero";
 import CapabilityStrip from "@/components/venox/CapabilityStrip";
@@ -14,21 +15,23 @@ import Footer from "@/components/venox/Footer";
 
 export default function Home() {
   return (
-    <div className="venox">
-      <Navbar />
-      <main>
-        <Hero />
-        <CapabilityStrip />
-        <Partnership />
-        <Disciplines />
-        <ProcessSection />
-        <Engagement />
-        <Solutions />
-        <Ecosystem />
-        <VenoxShowpiece />
-        <CtaSection />
-      </main>
-      <Footer />
-    </div>
+    <MotionConfig reducedMotion="user">
+      <div className="venox">
+        <Navbar />
+        <main>
+          <Hero />
+          <CapabilityStrip />
+          <Partnership />
+          <Disciplines />
+          <ProcessSection />
+          <Engagement />
+          <Solutions />
+          <Ecosystem />
+          <VenoxShowpiece />
+          <CtaSection />
+        </main>
+        <Footer />
+      </div>
+    </MotionConfig>
   );
 }

@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { animate, useInView } from "framer-motion";
 import { ArrowLink, Tag } from "./ui";
 import Reveal from "./Reveal";
 import WaveCanvas from "./WaveCanvas";
@@ -8,6 +12,32 @@ const STATS = [
   { num: "4", label: "Engagement Models" },
   { num: "2", label: "Global Locations" },
 ];
+
+function CountUp({ value }: { value: string }) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [display, setDisplay] = useState(0);
+  const target = parseInt(value, 10);
+
+  useEffect(() => {
+    if (!inView) return;
+    const controls = animate(0, target, {
+      duration: 1,
+      ease: [0.16, 1, 0.3, 1],
+      onUpdate: (v) => setDisplay(Math.round(v)),
+    });
+    return () => controls.stop();
+  }, [inView, target]);
+
+  return (
+    <p
+      ref={ref}
+      className="vx-num text-[34px] font-semibold text-[#10150c] group-hover:text-[#9dff3f] transition-colors"
+    >
+      {display}
+    </p>
+  );
+}
 
 export default function Partnership() {
   return (
@@ -46,9 +76,7 @@ export default function Partnership() {
         {STATS.map((s, i) => (
           <Reveal key={s.label} delay={i * 0.08} className="bg-[#f1f2ec]">
             <div className="px-6 py-7 group hover:bg-[#0b0f09] transition-colors duration-300">
-              <p className="vx-num text-[34px] font-semibold text-[#10150c] group-hover:text-[#9dff3f] transition-colors">
-                {s.num}
-              </p>
+              <CountUp value={s.num} />
               <p className="mt-1 text-[10px] font-mono tracking-[0.18em] uppercase text-[#4c5544] group-hover:text-[#9aa590] transition-colors">
                 {s.label}
               </p>

@@ -56,9 +56,9 @@ export default function Footer() {
               {(["in", "x", "mail"] as const).map((t) => (
                 <a
                   key={t}
-                  href="#top"
-                  className="w-8 h-8 border border-[rgba(255,255,255,0.12)] flex items-center justify-center text-[#9aa590] hover:text-[#9dff3f] hover:border-[#9dff3f] hover:-translate-y-0.5 transition-all"
-                  aria-label={t}
+                  href={t === "mail" ? "mailto:support@vexonsol.com" : "#top"}
+                  className="w-10 h-10 border border-[rgba(255,255,255,0.12)] flex items-center justify-center text-[#9aa590] hover:text-[#9dff3f] hover:border-[#9dff3f] hover:-translate-y-0.5 transition-all"
+                  aria-label={t === "in" ? "LinkedIn" : t === "x" ? "X (Twitter)" : "Email"}
                 >
                   <SocialIcon type={t} />
                 </a>
@@ -112,7 +112,7 @@ export default function Footer() {
             <a href="#top" className="hover:text-[#9aa590]">Terms of Service</a>
             <a
               href="#top"
-              className="w-8 h-8 -my-2 border border-[rgba(255,255,255,0.12)] flex items-center justify-center text-[#9aa590] hover:text-[#9dff3f] hover:border-[#9dff3f] transition-colors"
+              className="w-10 h-10 -my-2 border border-[rgba(255,255,255,0.12)] flex items-center justify-center text-[#9aa590] hover:text-[#9dff3f] hover:border-[#9dff3f] transition-colors"
               aria-label="Back to top"
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">

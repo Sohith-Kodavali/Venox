@@ -206,56 +206,15 @@ html:has(.venox) ::-webkit-scrollbar-thumb:hover {
     0 0 90px rgba(157, 255, 63, 0.06);
 }
 
-/* Accent word (e.g. "ambitious") — lime gradient text with an animated
-   sheen sweeping across the letters + heavier weight for emphasis. */
+/* Accent word (e.g. "ambitious") — lime gradient only, no glow, no aura */
 .venox .vx-hero-accent {
-  background: linear-gradient(
-    112deg,
-    #7fdc2a 0%,
-    #9dff3f 22%,
-    #d9ffa0 42%,
-    #ffffff 50%,
-    #d9ffa0 58%,
-    #b6ff57 74%,
-    #6bbe1a 100%
-  );
-  background-size: 260% 100%;
-  background-position: 100% 0%;
+  background: linear-gradient(180deg, #d9ffa0 0%, #9dff3f 45%, #7fdc2a 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  text-shadow: none;
-  filter:
-    drop-shadow(0 0 26px rgba(157, 255, 63, 0.55))
-    drop-shadow(0 0 60px rgba(157, 255, 63, 0.22));
-  animation: vx-hero-accent-sheen 5.5s linear infinite;
-  padding-inline: 0.02em;
-  display: inline-block;
-}
-
-@keyframes vx-hero-accent-sheen {
-  0%   { background-position: 100% 0%; }
-  100% { background-position: -160% 0%; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .venox .vx-hero-accent { animation: none; background-position: 50% 0%; }
-}
-
-/* Soft radial aura behind the accent word */
-.venox .vx-hero-accent-aura {
-  position: absolute;
-  inset: -35% -12%;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse at center, rgba(157,255,63,0.42), rgba(157,255,63,0.14) 42%, transparent 70%);
-  filter: blur(30px);
-  mix-blend-mode: screen;
-  z-index: 0;
-  will-change: transform, opacity;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .venox .vx-h2 {

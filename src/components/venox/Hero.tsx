@@ -71,43 +71,7 @@ export default function Hero() {
                     }}
                   >
                     {line.accent ? (
-                      <span className="relative inline-block italic align-baseline">
-                        <motion.span
-                          aria-hidden="true"
-                          className="vx-hero-accent-aura"
-                          initial={{ opacity: 0, scale: 0.85 }}
-                          animate={
-                            loaded
-                              ? { opacity: 1, scale: 1 }
-                              : { opacity: 0, scale: 0.85 }
-                          }
-                          transition={{ duration: 1.2, delay: 1.35, ease }}
-                        />
-                        <span
-                          className="relative vx-hero-accent"
-                          style={{ zIndex: 1 }}
-                        >
-                          {line.text}
-                        </span>
-                        <motion.span
-                          aria-hidden="true"
-                          className="absolute left-0 right-0 -bottom-[0.06em] h-[0.06em] rounded-full origin-left"
-                          style={{
-                            zIndex: 1,
-                            background:
-                              "linear-gradient(90deg, rgba(157,255,63,0.95), rgba(230,255,184,0.85) 55%, rgba(157,255,63,0))",
-                            boxShadow:
-                              "0 0 16px rgba(157,255,63,0.7), 0 0 32px rgba(157,255,63,0.35)",
-                          }}
-                          initial={{ scaleX: 0, opacity: 0 }}
-                          animate={
-                            loaded
-                              ? { scaleX: 1, opacity: 1 }
-                              : { scaleX: 0, opacity: 0 }
-                          }
-                          transition={{ duration: 0.9, delay: 1.5, ease }}
-                        />
-                      </span>
+                      <span className="vx-hero-accent">{line.text}</span>
                     ) : (
                       <span className="text-white">{line.text}</span>
                     )}

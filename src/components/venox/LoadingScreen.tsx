@@ -201,45 +201,6 @@ export default function LoadingScreen() {
             transition={{ duration: 0.55, delay: 0.15, ease: IN_OUT_EASE }}
           />
 
-          {/* Horizon sweep behind wordmark; brightens on completion */}
-          <motion.div
-            className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px pointer-events-none"
-            initial={{ opacity: 0, scaleX: 0 }}
-            animate={{
-              opacity: converge ? 0 : complete ? 0.9 : 0.35,
-              scaleX: 1,
-            }}
-            transition={{ duration: 1.2, ease: REVEAL_EASE }}
-            style={{
-              background:
-                "linear-gradient(90deg, transparent, rgba(157,255,63,0.6), transparent)",
-              transformOrigin: "50% 50%",
-            }}
-          />
-
-          {/* Completion scan beam */}
-          {complete && !converge && (
-            <motion.div
-              className="absolute inset-x-0 pointer-events-none"
-              style={{
-                height: "3px",
-                top: "calc(50% - 90px)",
-                background:
-                  "linear-gradient(90deg, transparent, rgba(230,255,184,0.95) 20%, #e6ffb8 50%, rgba(230,255,184,0.95) 80%, transparent)",
-                boxShadow:
-                  "0 0 24px rgba(157,255,63,0.9), 0 0 60px rgba(157,255,63,0.55)",
-                willChange: "transform, opacity",
-              }}
-              initial={{ opacity: 0, y: 0, scaleX: 0.2 }}
-              animate={{ opacity: [0, 1, 1, 0], y: [0, 180], scaleX: [0.2, 1, 1, 1] }}
-              transition={{
-                duration: 0.7,
-                times: [0, 0.1, 0.9, 1],
-                ease: IN_OUT_EASE,
-              }}
-            />
-          )}
-
           {/* Completion / zoom bloom */}
           <motion.div
             className="absolute top-1/2 left-1/2 pointer-events-none"

@@ -43,20 +43,6 @@ export default function Hero() {
           </motion.p>
 
           <div className="relative">
-            {/* Decorative vertical accent bar next to the headline */}
-            <motion.span
-              aria-hidden="true"
-              className="hidden md:block absolute -left-6 top-2 bottom-2 w-[2px] origin-top"
-              style={{
-                background:
-                  "linear-gradient(180deg, rgba(157,255,63,0) 0%, rgba(157,255,63,0.7) 22%, rgba(157,255,63,0.7) 78%, rgba(157,255,63,0) 100%)",
-                boxShadow: "0 0 10px rgba(157,255,63,0.35)",
-              }}
-              initial={{ scaleY: 0, opacity: 0 }}
-              animate={loaded ? { scaleY: 1, opacity: 1 } : { scaleY: 0, opacity: 0 }}
-              transition={{ duration: 1.2, delay: 0.7, ease }}
-            />
-
             <h1 className="vx-h1 vx-hero-h1 select-none">
               {LINES.map((line, i) => (
                 <span key={line.text} className="block overflow-hidden pb-[0.12em] -mb-[0.12em]">

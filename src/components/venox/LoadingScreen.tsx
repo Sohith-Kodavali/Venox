@@ -188,7 +188,7 @@ export default function LoadingScreen() {
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(157,255,63,0.03), transparent 65%)",
+                "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(157,255,63,0.055), transparent 65%)",
             }}
             animate={{ opacity: zoom ? 0 : 1 }}
             transition={{ duration: 0.55, ease: IN_OUT_EASE }}
@@ -210,7 +210,7 @@ export default function LoadingScreen() {
               marginLeft: "calc(clamp(360px, 62vw, 1000px) / -2)",
               marginTop: "calc(clamp(160px, 22vw, 360px) / -2)",
               background:
-                "radial-gradient(ellipse at center, rgba(157,255,63,0.18), rgba(157,255,63,0.06) 42%, transparent 72%)",
+                "radial-gradient(ellipse at center, rgba(157,255,63,0.32), rgba(157,255,63,0.11) 42%, transparent 72%)",
               filter: "blur(32px)",
               mixBlendMode: "screen",
               willChange: "transform, opacity",
@@ -218,9 +218,9 @@ export default function LoadingScreen() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={
               zoom
-                ? { opacity: [0.22, 0.4, 0], scale: [1.1, 2.2, 3] }
+                ? { opacity: [0.4, 0.75, 0], scale: [1.1, 2.2, 3] }
                 : complete
-                ? { opacity: [0, 0.35, 0.22], scale: [0.9, 1.3, 1.1] }
+                ? { opacity: [0, 0.6, 0.4], scale: [0.9, 1.3, 1.1] }
                 : { opacity: 0, scale: 0.9 }
             }
             transition={{
@@ -275,10 +275,10 @@ export default function LoadingScreen() {
                             ? "1.9px #b6ff57"
                             : "1.5px #9dff3f",
                           textShadow: zoom
-                            ? "0 0 55px rgba(157,255,63,0.32), 0 0 140px rgba(157,255,63,0.16)"
+                            ? "0 0 65px rgba(157,255,63,0.55), 0 0 170px rgba(157,255,63,0.28)"
                             : complete
-                            ? "0 0 32px rgba(157,255,63,0.26), 0 0 70px rgba(157,255,63,0.14)"
-                            : "0 0 22px rgba(157,255,63,0.12)",
+                            ? "0 0 38px rgba(157,255,63,0.45), 0 0 85px rgba(157,255,63,0.24)"
+                            : "0 0 24px rgba(157,255,63,0.22)",
                           transitionProperty: "text-shadow, -webkit-text-stroke",
                           transitionDuration: "0.4s",
                           transitionTimingFunction: "ease-out",
@@ -319,7 +319,7 @@ export default function LoadingScreen() {
                       className="text-[15vw] sm:text-[6.5rem] leading-none font-bold text-transparent"
                       style={{
                         WebkitTextStroke: "1.5px #9dff3f",
-                        textShadow: "0 0 22px rgba(157,255,63,0.12)",
+                        textShadow: "0 0 24px rgba(157,255,63,0.22)",
                         willChange: "transform, opacity",
                       }}
                     >
@@ -368,8 +368,8 @@ export default function LoadingScreen() {
                     width: `${progress * 100}%`,
                     transition: "width 90ms linear, box-shadow 0.4s ease-out",
                     boxShadow: complete
-                      ? "0 0 10px rgba(157,255,63,0.35), 0 0 22px rgba(157,255,63,0.18)"
-                      : "0 0 4px rgba(157,255,63,0.18)",
+                      ? "0 0 16px rgba(157,255,63,0.6), 0 0 40px rgba(157,255,63,0.32)"
+                      : "0 0 7px rgba(157,255,63,0.32)",
                   }}
                 />
                 {complete && (
@@ -377,10 +377,10 @@ export default function LoadingScreen() {
                     className="absolute inset-0"
                     style={{
                       background:
-                        "linear-gradient(90deg, transparent, rgba(230,255,184,0.35), transparent)",
+                        "linear-gradient(90deg, transparent, rgba(230,255,184,0.55), transparent)",
                     }}
                     initial={{ opacity: 0, x: "-100%" }}
-                    animate={{ opacity: [0, 0.6, 0], x: "100%" }}
+                    animate={{ opacity: [0, 0.85, 0], x: "100%" }}
                     transition={{
                       duration: 0.5,
                       times: [0, 0.4, 1],
@@ -399,7 +399,7 @@ export default function LoadingScreen() {
                       exit={{ opacity: 0, y: -4 }}
                       transition={{ duration: 0.28, ease: "easeOut" }}
                       className="absolute inset-x-0 text-[9px] font-mono tracking-[0.26em] uppercase text-[#9dff3f]"
-                      style={{ textShadow: "0 0 6px rgba(157,255,63,0.28)" }}
+                      style={{ textShadow: "0 0 9px rgba(157,255,63,0.5)" }}
                     >
                       <span aria-hidden="true" className="mr-1">▸</span>
                       <ScrambleText text="SYSTEMS ONLINE" duration={520} />

@@ -6,7 +6,14 @@ import HeroBackground from "./HeroBackground";
 import { useLoaded } from "./useLoaded";
 
 const ease = [0.16, 1, 0.3, 1] as const;
-const LINES = ["We build the", "systems behind", "ambitious", "businesses"];
+
+type LineSpec = { text: string; accent?: boolean };
+const LINES: LineSpec[] = [
+  { text: "We build the" },
+  { text: "systems behind" },
+  { text: "ambitious", accent: true },
+  { text: "businesses" },
+];
 
 export default function Hero() {
   const loaded = useLoaded();
@@ -35,25 +42,75 @@ export default function Hero() {
             Technology &amp; Digital Engineering Partner
           </motion.p>
 
-          <h1 className="vx-h1 text-white select-none">
-            {LINES.map((line, i) => (
-              <span key={line} className="block overflow-hidden pb-[0.12em] -mb-[0.12em]">
-                <motion.span
-                  className="block will-change-transform"
-                  initial={{ y: "115%", scale: 1.04 }}
-                  animate={loaded ? { y: 0, scale: 1 } : { y: "115%", scale: 1.04 }}
-                  transition={{
-                    duration: 1.05,
-                    delay: 0.85 + i * 0.13,
-                    ease,
-                  }}
-                >
-                  {line}
-                  {i === LINES.length - 1 && <span className="text-[#9dff3f]">.</span>}
-                </motion.span>
-              </span>
-            ))}
-          </h1>
+          <div className="relative">
+            {/* Decorative vertical accent bar next to the headline */}
+            <motion.span
+              aria-hidden="true"
+              className="hidden md:block absolute -left-6 top-2 bottom-2 w-[2px] origin-top"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(157,255,63,0) 0%, rgba(157,255,63,0.7) 22%, rgba(157,255,63,0.7) 78%, rgba(157,255,63,0) 100%)",
+                boxShadow: "0 0 10px rgba(157,255,63,0.35)",
+              }}
+              initial={{ scaleY: 0, opacity: 0 }}
+              animate={loaded ? { scaleY: 1, opacity: 1 } : { scaleY: 0, opacity: 0 }}
+              transition={{ duration: 1.2, delay: 0.7, ease }}
+            />
+
+            <h1 className="vx-h1 vx-hero-h1 select-none">
+              {LINES.map((line, i) => (
+                <span key={line.text} className="block overflow-hidden pb-[0.12em] -mb-[0.12em]">
+                  <motion.span
+                    className="block will-change-transform"
+                    initial={{ y: "115%", scale: 1.04 }}
+                    animate={loaded ? { y: 0, scale: 1 } : { y: "115%", scale: 1.04 }}
+                    transition={{
+                      duration: 1.05,
+                      delay: 0.85 + i * 0.13,
+                      ease,
+                    }}
+                  >
+                    {line.accent ? (
+                      <span className="relative inline-block italic vx-hero-accent">
+                        {line.text}
+                        <motion.span
+                          aria-hidden="true"
+                          className="absolute left-0 right-0 -bottom-[0.06em] h-[0.06em] rounded-full origin-left"
+                          style={{
+                            background:
+                              "linear-gradient(90deg, rgba(157,255,63,0.95), rgba(230,255,184,0.75) 55%, rgba(157,255,63,0))",
+                            boxShadow: "0 0 14px rgba(157,255,63,0.6)",
+                          }}
+                          initial={{ scaleX: 0, opacity: 0 }}
+                          animate={
+                            loaded
+                              ? { scaleX: 1, opacity: 1 }
+                              : { scaleX: 0, opacity: 0 }
+                          }
+                          transition={{ duration: 0.9, delay: 1.5, ease }}
+                        />
+                      </span>
+                    ) : (
+                      <span className="text-white">{line.text}</span>
+                    )}
+                    {i === LINES.length - 1 && <span className="text-[#9dff3f]">.</span>}
+                  </motion.span>
+                </span>
+              ))}
+            </h1>
+
+            {/* Small technical marker in the top-right of the headline */}
+            <motion.span
+              aria-hidden="true"
+              className="hidden lg:flex absolute right-0 top-1 items-center gap-2 text-[10px] font-mono tracking-[0.28em] uppercase text-[#6f7a66]"
+              initial={{ opacity: 0, x: 12 }}
+              animate={loaded ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
+              transition={{ duration: 0.8, delay: 1.4, ease }}
+            >
+              <span className="w-[22px] h-[1px] bg-[rgba(157,255,63,0.5)]" />
+              01 / Manifesto
+            </motion.span>
+          </div>
 
           <motion.p
             className="mt-8 max-w-[400px] text-[15px] leading-relaxed text-[#9aa590]"

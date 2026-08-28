@@ -82,6 +82,60 @@ html:has(.venox) ::-webkit-scrollbar-thumb:hover {
     linear-gradient(180deg, #050704 0%, #070a06 50%, #050704 100%);
 }
 
+/* Alternate dark section — warmer, glow origin flipped so consecutive
+   dark sections don't blur into each other visually */
+.venox .vx-section-dark-alt {
+  position: relative;
+  background:
+    radial-gradient(ellipse 55% 45% at 92% 92%, rgba(157, 255, 63, 0.09), transparent 60%),
+    radial-gradient(ellipse 45% 45% at 8% 12%, rgba(79, 251, 198, 0.06), transparent 55%),
+    linear-gradient(180deg, #070b06 0%, #0a0f07 50%, #060a05 100%);
+}
+
+.venox .vx-section-dark-alt::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(157, 255, 63, 0.06) 1px, transparent 1.5px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 25%, transparent 80%);
+}
+
+/* Decorative divider — a subtle horizontal accent that sits on top of a
+   section header to visually break it from the section above */
+.venox .vx-section-mark {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--vx-muted-2);
+  margin-bottom: 28px;
+}
+
+.venox .vx-section-mark::before,
+.venox .vx-section-mark::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, transparent, rgba(157, 255, 63, 0.35), transparent);
+}
+
+.venox .vx-section-mark::before { max-width: 120px; }
+.venox .vx-section-mark::after  { max-width: 100%; }
+
+.venox .vx-section-mark .vx-section-mark-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--vx-lime);
+  box-shadow: 0 0 10px rgba(157, 255, 63, 0.6);
+}
+
 .venox .vx-section-dark::before {
   content: "";
   position: absolute;
@@ -142,6 +196,27 @@ html:has(.venox) ::-webkit-scrollbar-thumb:hover {
   line-height: 0.98;
   font-weight: 600;
   letter-spacing: -0.035em;
+}
+
+/* Hero-specific headline treatment — subtle glow + gradient tint */
+.venox .vx-hero-h1 {
+  color: #eef2e6;
+  text-shadow:
+    0 0 40px rgba(157, 255, 63, 0.12),
+    0 0 90px rgba(157, 255, 63, 0.06);
+}
+
+/* Accent word (e.g. "ambitious") — lime gradient text with slight weight */
+.venox .vx-hero-accent {
+  background: linear-gradient(180deg, #e6ffb8 0%, #b6ff57 35%, #7fdc2a 78%, #4a9b0f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-shadow: none;
+  filter: drop-shadow(0 0 22px rgba(157, 255, 63, 0.35));
 }
 
 .venox .vx-h2 {
@@ -287,6 +362,15 @@ html:has(.venox) ::-webkit-scrollbar-thumb:hover {
   background-image: linear-gradient(rgba(157, 255, 63, 0.045) 1px, transparent 1px),
     linear-gradient(90deg, rgba(157, 255, 63, 0.045) 1px, transparent 1px);
   background-size: 56px 56px;
+}
+
+.vx-wa-ping {
+  animation: vx-wa-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+@keyframes vx-wa-ping {
+  0%   { transform: scale(1);    opacity: 0.55; }
+  75%, 100% { transform: scale(1.55); opacity: 0; }
 }
 
 .venox .vx-hero-base {

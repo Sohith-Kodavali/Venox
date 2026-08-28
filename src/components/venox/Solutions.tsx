@@ -28,8 +28,14 @@ const SOLUTIONS = [
 
 export default function Solutions() {
   return (
-    <section id="solutions" className="vx-section-dark vx-grain border-t border-[rgba(255,255,255,0.05)]">
+    <section id="solutions" className="vx-section-dark-alt vx-grain border-t border-[rgba(255,255,255,0.08)]">
       <div className="relative vx-container py-24 lg:py-32">
+        <Reveal>
+          <div className="vx-section-mark">
+            <span className="vx-section-mark-dot" />
+            <span>05 &nbsp;/&nbsp; Reference Implementations</span>
+          </div>
+        </Reveal>
         <div className="flex flex-wrap items-end justify-between gap-6 mb-14">
           <div>
             <Reveal>

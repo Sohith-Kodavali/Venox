@@ -13,6 +13,7 @@ import Ecosystem from "@/components/venox/Ecosystem";
 import VenoxShowpiece from "@/components/venox/VenoxShowpiece";
 import CtaSection from "@/components/venox/CtaSection";
 import Footer from "@/components/venox/Footer";
+import WhatsAppButton from "@/components/venox/WhatsAppButton";
 
 export default function Home() {
   return (
@@ -33,6 +34,7 @@ export default function Home() {
           <CtaSection />
         </main>
         <Footer />
+        <WhatsAppButton />
       </div>
     </MotionConfig>
   );

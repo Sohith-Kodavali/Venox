@@ -654,13 +654,20 @@ export default function HeroBackground() {
         rm.uniforms.uAssemble.value = a;
       }
 
-      // Central bloom breathing — hidden until the entry starts revealing
+      // Central bloom breathing — hidden until the entry starts revealing.
+      // A brief "punch" is timed to the loading X-portal peak (~0.65s after
+      // loaded fires) so the hero flashes in sympathy with the portal you
+      // just came through.
       const bp = 0.85 + Math.sin(t * 1.2) * 0.08;
       const outerMult = isDesktop ? 0.85 : 0.42;
       const innerMult = isDesktop ? 1.0 : 0.55;
-      bloomOuter.material.opacity = entry * bp * outerMult;
-      bloomInner.material.opacity = entry * (0.9 + Math.sin(t * 2.0) * 0.1) * innerMult;
-      const sOuter = bloomOuterScale * (0.98 + Math.sin(t * 0.9) * 0.03);
+      const entryElapsed = entryStarted ? t - entryStartT : -1;
+      const punch = entryElapsed >= 0 ? Math.max(0, 1 - Math.abs(entryElapsed - 0.65) * 3.2) : 0;
+      const punchBoost = 1 + punch * 0.6;
+      bloomOuter.material.opacity = entry * bp * outerMult * punchBoost;
+      bloomInner.material.opacity =
+        entry * (0.9 + Math.sin(t * 2.0) * 0.1) * innerMult * punchBoost;
+      const sOuter = bloomOuterScale * (0.98 + Math.sin(t * 0.9) * 0.03 + punch * 0.12);
       bloomOuter.scale.set(sOuter, sOuter, 1);
 
       renderer.render(scene, camera);

@@ -70,7 +70,10 @@ export default function Solutions() {
                 href="#contact"
                 className="group relative grid grid-cols-[64px_1fr_auto] lg:grid-cols-[100px_1fr_40px] gap-6 lg:gap-14 items-center py-10 lg:py-14 border-b border-[rgba(255,255,255,0.08)] transition-colors"
               >
-                <span className="vx-num text-[26px] lg:text-[32px] leading-none text-[#6f7a66] group-hover:text-[#9dff3f] transition-colors">
+                <span
+                  className="vx-num text-[26px] lg:text-[32px] leading-none text-[#9dff3f] group-hover:text-[#c8ff86] transition-colors"
+                  style={{ textShadow: "0 0 14px rgba(157,255,63,0.35)" }}
+                >
                   {s.num}
                 </span>
 

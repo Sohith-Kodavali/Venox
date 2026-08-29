@@ -8,6 +8,7 @@ import {
   useReducedMotion,
 } from "framer-motion";
 import { emitHeroEnter, emitLoaded } from "./useLoaded";
+import { sfx } from "./sound";
 
 const CHARS = ["V", "E", "X", "O", "N"];
 
@@ -106,10 +107,10 @@ export default function LoadingScreen() {
 
     for (let i = 1; i <= CHARS.length; i++) {
       timers.push(
-        window.setTimeout(
-          () => setVisibleCount(i),
-          CASCADE_START_MS + CASCADE_STEP_MS * (i - 1)
-        )
+        window.setTimeout(() => {
+          setVisibleCount(i);
+          sfx.tick();
+        }, CASCADE_START_MS + CASCADE_STEP_MS * (i - 1))
       );
     }
 
@@ -135,7 +136,12 @@ export default function LoadingScreen() {
     raf = requestAnimationFrame(tick);
 
     // Choreograph the outro
-    timers.push(window.setTimeout(() => setComplete(true), FILL_DURATION_MS));
+    timers.push(
+      window.setTimeout(() => {
+        setComplete(true);
+        sfx.chime();
+      }, FILL_DURATION_MS)
+    );
     timers.push(
       window.setTimeout(() => setConverge(true), FILL_DURATION_MS + COMPLETE_BEAT_MS)
     );
@@ -145,6 +151,7 @@ export default function LoadingScreen() {
         // touch scroll during the loader)
         window.scrollTo(0, 0);
         setZoom(true);
+        sfx.whoosh();
         // Bring the hero BACKGROUND alive UNDER the V-zoom so when the
         // overlay dismisses, the WebGL scene is already assembling —
         // no "empty hero" pop like before.

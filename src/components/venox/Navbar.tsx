@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { ArrowRight, Logo } from "./ui";
+import SoundToggle from "./SoundToggle";
 
 const LINKS = [
   { label: "Solutions", href: "#solutions" },
@@ -81,6 +82,7 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <SoundToggle />
           <a href="#contact" className="vx-btn vx-btn-lime !py-2.5 !px-5 hidden sm:inline-flex">
             Let&apos;s Talk
             <ArrowRight size={14} />

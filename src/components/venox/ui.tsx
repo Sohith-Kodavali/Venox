@@ -1,4 +1,7 @@
+"use client";
+
 import type { ReactNode } from "react";
+import { sfx } from "./sound";
 
 export function ArrowRight({ size = 16, className = "" }: { size?: number; className?: string }) {
   return (
@@ -22,7 +25,12 @@ export function Tag({ children, dark = false }: { children: ReactNode; dark?: bo
 
 export function LimeButton({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <a href={href} className="vx-btn vx-btn-lime">
+    <a
+      href={href}
+      className="vx-btn vx-btn-lime"
+      onClick={() => sfx.click()}
+      onMouseEnter={() => sfx.hover()}
+    >
       {children}
       <ArrowRight size={15} />
     </a>
@@ -31,16 +39,35 @@ export function LimeButton({ href, children }: { href: string; children: ReactNo
 
 export function GhostButton({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <a href={href} className="vx-btn vx-btn-ghost">
+    <a
+      href={href}
+      className="vx-btn vx-btn-ghost"
+      onClick={() => sfx.click()}
+      onMouseEnter={() => sfx.hover()}
+    >
       {children}
       <ArrowRight size={15} />
     </a>
   );
 }
 
-export function ArrowLink({ href, children, dark = false, className = "" }: { href: string; children: ReactNode; dark?: boolean; className?: string }) {
+export function ArrowLink({
+  href,
+  children,
+  dark = false,
+  className = "",
+}: {
+  href: string;
+  children: ReactNode;
+  dark?: boolean;
+  className?: string;
+}) {
   return (
-    <a href={href} className={`vx-arrow-link ${dark ? "text-[#10150c]" : "text-[#9dff3f]"} ${className}`}>
+    <a
+      href={href}
+      className={`vx-arrow-link ${dark ? "text-[#10150c]" : "text-[#9dff3f]"} ${className}`}
+      onClick={() => sfx.click()}
+    >
       {children}
       <ArrowRight size={14} />
     </a>

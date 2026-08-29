@@ -13,16 +13,15 @@ const COLS: { head: string; links: { label: string; href: string }[] }[] = [
   {
     head: "Company",
     links: [
-      { label: "About Us", href: "#about" },
-      { label: "Our Process", href: "#process" },
-      { label: "Engagement Models", href: "#engagement" },
-      { label: "Solution Experience", href: "#solutions" },
+      { label: "About", href: "#about" },
+      { label: "Process", href: "#process" },
+      { label: "Engagement", href: "#engagement" },
+      { label: "Solutions", href: "#solutions" },
     ],
   },
   {
-    head: "Resources",
+    head: "More",
     links: [
-      { label: "Approach", href: "#process" },
       { label: "Technologies", href: "#tech" },
       { label: "Contact", href: "#contact" },
     ],
@@ -57,20 +56,26 @@ export default function Footer() {
         className="absolute inset-x-0 top-0 h-px"
         style={{ background: "linear-gradient(90deg, transparent, rgba(157,255,63,0.5), transparent)" }}
       />
-      <div className="relative vx-container pt-16 pb-8 grid gap-12 lg:grid-cols-[1.3fr_2fr]">
+
+      {/* Primary — brand + nav + contact */}
+      <div className="relative vx-container pt-20 pb-16 grid gap-14 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,2fr)]">
+        {/* Brand block */}
         <Reveal>
           <div>
             <Logo />
-            <p className="mt-6 text-[13px] text-[#9aa590]">Technology &amp; Digital Engineering Partner</p>
-            <p className="mt-2 text-[10px] font-mono tracking-[0.18em] uppercase text-[#6f7a66]">
-              United States &nbsp;&bull;&nbsp; India Delivery Team
+            <p className="mt-6 text-[14px] leading-relaxed text-[#c9d2c0] max-w-[320px]">
+              Technology &amp; Digital Engineering Partner.
             </p>
-            <div className="mt-6 flex gap-3">
+            <p className="mt-2 text-[13px] leading-relaxed text-[#9aa590] max-w-[320px]">
+              Software, AI, data and cloud — delivered as one team.
+            </p>
+
+            <div className="mt-8 flex gap-2.5">
               {(["in", "x", "mail"] as const).map((t) => (
                 <a
                   key={t}
                   href={t === "mail" ? "mailto:support@vexonsol.com" : "#top"}
-                  className="w-10 h-10 border border-[rgba(255,255,255,0.12)] flex items-center justify-center text-[#9aa590] hover:text-[#9dff3f] hover:border-[#9dff3f] hover:-translate-y-0.5 transition-all"
+                  className="w-9 h-9 border border-[rgba(255,255,255,0.12)] flex items-center justify-center text-[#9aa590] hover:text-[#9dff3f] hover:border-[#9dff3f] hover:-translate-y-0.5 transition-all"
                   aria-label={t === "in" ? "LinkedIn" : t === "x" ? "X (Twitter)" : "Email"}
                 >
                   <SocialIcon type={t} />
@@ -80,31 +85,45 @@ export default function Footer() {
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        {/* Nav + contact */}
+        <div className="grid gap-10 sm:grid-cols-[repeat(3,minmax(0,1fr))_minmax(0,1.15fr)]">
           {COLS.map((c, ci) => (
-            <Reveal key={c.head} delay={ci * 0.08}>
+            <Reveal key={c.head} delay={ci * 0.06}>
               <div>
-                <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-white mb-4">{c.head}</p>
-                {c.links.map((l) => (
-                  <a key={l.label} href={l.href} className="vx-footer-link">
-                    {l.label}
-                  </a>
-                ))}
+                <p className="text-[10px] font-mono tracking-[0.22em] uppercase text-[#6f7a66] mb-4">
+                  {c.head}
+                </p>
+                <div className="flex flex-col gap-0.5">
+                  {c.links.map((l) => (
+                    <a key={l.label} href={l.href} className="vx-footer-link">
+                      {l.label}
+                    </a>
+                  ))}
+                </div>
               </div>
             </Reveal>
           ))}
+
           <Reveal delay={0.24}>
             <div>
-              <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-white mb-4">Get in Touch</p>
-              <a href="mailto:support@vexonsol.com" className="vx-footer-link">
+              <p className="text-[10px] font-mono tracking-[0.22em] uppercase text-[#6f7a66] mb-4">
+                Get in Touch
+              </p>
+              <a
+                href="mailto:support@vexonsol.com"
+                className="text-[13.5px] text-[#c9d2c0] hover:text-[#9dff3f] transition-colors"
+              >
                 support@vexonsol.com
               </a>
-              <p className="mt-1 text-[12.5px] leading-relaxed text-[#9aa590] max-w-[220px]">
+              <p className="mt-3 text-[12.5px] leading-relaxed text-[#9aa590] max-w-[240px]">
                 13809 Research Blvd STE 500
                 <br />
                 Austin, TX 78750
               </p>
-              <a href="mailto:support@vexonsol.com" className="vx-btn vx-btn-lime !py-2.5 !px-4 !text-[10px] mt-4">
+              <a
+                href="mailto:support@vexonsol.com"
+                className="vx-btn vx-btn-lime !py-2.5 !px-4 !text-[10px] mt-5"
+              >
                 Let&apos;s Talk
                 <ArrowRight size={12} />
               </a>
@@ -113,31 +132,52 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="relative vx-container overflow-hidden">
-        <p className="vx-watermark text-center translate-y-[28%]">VEXON</p>
+      {/* Watermark — quieter, smaller, no crop transform */}
+      <div className="relative vx-container overflow-hidden pb-6">
+        <p
+          aria-hidden="true"
+          className="text-center font-bold leading-none select-none"
+          style={{
+            fontSize: "clamp(4rem, 12vw, 10rem)",
+            letterSpacing: "-0.04em",
+            color: "transparent",
+            WebkitTextStroke: "1px rgba(157,255,63,0.06)",
+          }}
+        >
+          VEXON
+        </p>
       </div>
 
-      <div className="relative border-t border-[rgba(255,255,255,0.05)] bg-[#030502]">
-        <div className="vx-container py-5 flex flex-wrap items-center justify-between gap-4 text-[10px] font-mono tracking-[0.08em] text-[#4d573f]">
-          <span className="flex items-center gap-4">
-            <span>© 2026 Vexon Solutions Inc. All rights reserved.</span>
-            <span className="hidden sm:inline text-[#242c1f] tracking-[0.14em]">
+      {/* Bottom bar — three zones, generous gap, back-to-top gets its own spot */}
+      <div className="relative border-t border-[rgba(255,255,255,0.05)]">
+        <div className="vx-container py-5 flex flex-wrap items-center justify-between gap-y-3 gap-x-6 text-[10px] font-mono tracking-[0.14em] text-[#4d573f]">
+          <div className="flex items-center gap-4 flex-wrap">
+            <span>© 2026 Vexon Solutions Inc.</span>
+            <span className="hidden sm:inline text-[#242c1f] tracking-[0.16em]">
               Made by Aeternum Works
             </span>
-          </span>
-          <span className="flex items-center gap-6">
-            <a href="#top" className="hover:text-[#9aa590]">Privacy Policy</a>
-            <a href="#top" className="hover:text-[#9aa590]">Terms of Service</a>
-            <a
-              href="#top"
-              className="w-10 h-10 -my-2 border border-[rgba(255,255,255,0.12)] flex items-center justify-center text-[#9aa590] hover:text-[#9dff3f] hover:border-[#9dff3f] transition-colors"
-              aria-label="Back to top"
-            >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M12 20V5M5.5 11 12 4.5 18.5 11" stroke="currentColor" strokeWidth="1.8" />
-              </svg>
+          </div>
+          <div className="flex items-center gap-6">
+            <a href="#top" className="hover:text-[#9aa590] transition-colors">
+              Privacy
             </a>
-          </span>
+            <a href="#top" className="hover:text-[#9aa590] transition-colors">
+              Terms
+            </a>
+          </div>
+          <a
+            href="#top"
+            aria-label="Back to top"
+            className="w-9 h-9 border border-[rgba(255,255,255,0.12)] flex items-center justify-center text-[#9aa590] hover:text-[#9dff3f] hover:border-[#9dff3f] transition-colors"
+          >
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M12 20V5M5.5 11 12 4.5 18.5 11"
+                stroke="currentColor"
+                strokeWidth="1.8"
+              />
+            </svg>
+          </a>
         </div>
       </div>
     </footer>

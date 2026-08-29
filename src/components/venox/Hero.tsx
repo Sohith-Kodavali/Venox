@@ -112,7 +112,7 @@ export default function Hero() {
       >
         <span className="flex items-center gap-3">
           <span className="vx-pulse-dot" />
-          United States &nbsp;&bull;&nbsp; India Delivery Team
+          United States
         </span>
         <span className="hidden md:flex items-center gap-2 text-[#9aa590]">
           SYS.STATUS — ONLINE

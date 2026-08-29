@@ -153,9 +153,11 @@ export default function LoadingScreen() {
     );
     // Text signal + overlay-hide fire together, exactly like the
     // click-to-skip path does — hero text enters onto a clean canvas.
+    // Pass mode:"natural" so Hero can slightly shorten text delays
+    // (the user has already sat through the full intro).
     timers.push(
       window.setTimeout(() => {
-        emitLoaded();
+        emitLoaded("natural");
         setVisible(false);
       }, TOTAL_MS)
     );

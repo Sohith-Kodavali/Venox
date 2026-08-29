@@ -2,25 +2,14 @@
 
 import { useEffect, useState } from "react";
 
-/**
- * Two-stage loader signal:
- *
- *   VX_HERO_ENTER_EVENT   → "start bringing the hero BACKGROUND alive"
- *                           (fires early on natural completion so WebGL
- *                           assembles UNDER the loader outro, giving the
- *                           reveal continuity instead of a pop)
- *
- *   VX_LOADED_EVENT       → "loader is gone, start the hero TEXT"
- *                           (fires when the overlay actually dismisses)
- *
- * Skip path fires both at the same instant, matching the old behavior.
- */
 export const VX_LOADED_EVENT = "vexon:loaded";
 export const VX_HERO_ENTER_EVENT = "vexon:hero-enter";
 
-export function emitLoaded() {
+export type LoadMode = "natural" | "skip" | "reduced";
+
+export function emitLoaded(mode: LoadMode = "skip") {
   if (typeof window === "undefined") return;
-  window.dispatchEvent(new CustomEvent(VX_LOADED_EVENT));
+  window.dispatchEvent(new CustomEvent(VX_LOADED_EVENT, { detail: { mode } }));
 }
 
 export function emitHeroEnter() {
@@ -28,7 +17,42 @@ export function emitHeroEnter() {
   window.dispatchEvent(new CustomEvent(VX_HERO_ENTER_EVENT));
 }
 
-function useEventFlag(eventName: string, fallbackMs: number) {
+export type LoadedState = { loaded: boolean; mode: LoadMode | null };
+
+/** Hero TEXT trigger. Also reports HOW the loader dismissed so callers
+ *  can tune entry cadence (natural completion has already made the user
+ *  wait, so text can arrive slightly sooner than on skip). */
+export function useLoaded(fallbackMs = 5000): LoadedState {
+  const [state, setState] = useState<LoadedState>({ loaded: false, mode: null });
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+      setState({ loaded: true, mode: "reduced" });
+      return;
+    }
+    const handler = (e: Event) => {
+      const mode = ((e as CustomEvent).detail?.mode as LoadMode) ?? "skip";
+      setState({ loaded: true, mode });
+    };
+    window.addEventListener(VX_LOADED_EVENT, handler);
+    const t = window.setTimeout(
+      () => setState({ loaded: true, mode: "skip" }),
+      fallbackMs
+    );
+    return () => {
+      window.removeEventListener(VX_LOADED_EVENT, handler);
+      window.clearTimeout(t);
+    };
+  }, [fallbackMs]);
+
+  return state;
+}
+
+/** Hero BACKGROUND trigger — fires early on natural completion so the
+ *  WebGL scene assembles under the V-zoom finale. */
+export function useHeroEnter(fallbackMs = 5000) {
   const [flag, setFlag] = useState(false);
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -38,24 +62,12 @@ function useEventFlag(eventName: string, fallbackMs: number) {
       return;
     }
     const handler = () => setFlag(true);
-    window.addEventListener(eventName, handler);
+    window.addEventListener(VX_HERO_ENTER_EVENT, handler);
     const t = window.setTimeout(() => setFlag(true), fallbackMs);
     return () => {
-      window.removeEventListener(eventName, handler);
+      window.removeEventListener(VX_HERO_ENTER_EVENT, handler);
       window.clearTimeout(t);
     };
-  }, [eventName, fallbackMs]);
+  }, [fallbackMs]);
   return flag;
-}
-
-/** Hero TEXT trigger — fires when the loader overlay actually dismisses. */
-export function useLoaded(fallbackMs = 5000) {
-  return useEventFlag(VX_LOADED_EVENT, fallbackMs);
-}
-
-/** Hero BACKGROUND trigger — fires early on natural completion so the
- *  WebGL scene can start assembling under the V-zoom finale. On skip
- *  and reduced-motion it fires alongside the loaded event. */
-export function useHeroEnter(fallbackMs = 5000) {
-  return useEventFlag(VX_HERO_ENTER_EVENT, fallbackMs);
 }

@@ -16,7 +16,10 @@ const LINES: LineSpec[] = [
 ];
 
 export default function Hero() {
-  const loaded = useLoaded();
+  const { loaded, mode } = useLoaded();
+  // User already sat through the full loader on natural completion, so
+  // shave a little off every entry delay for a snappier hero landing.
+  const speedup = mode === "natural" ? 0.18 : 0;
 
   return (
     <section id="top" className="relative min-h-[100svh] flex flex-col overflow-hidden vx-grain">
@@ -37,7 +40,7 @@ export default function Hero() {
             className="vx-tag mb-8"
             initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
             animate={loaded ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 18, filter: "blur(6px)" }}
-            transition={{ duration: 0.85, delay: 0.7, ease }}
+            transition={{ duration: 0.85, delay: 0.7 - speedup, ease }}
           >
             Technology &amp; Digital Engineering Partner
           </motion.p>
@@ -52,7 +55,7 @@ export default function Hero() {
                     animate={loaded ? { y: 0, scale: 1 } : { y: "115%", scale: 1.04 }}
                     transition={{
                       duration: 1.05,
-                      delay: 0.85 + i * 0.13,
+                      delay: 0.85 - speedup + i * 0.13,
                       ease,
                     }}
                   >
@@ -73,7 +76,7 @@ export default function Hero() {
               className="hidden lg:flex absolute right-0 top-1 items-center gap-2 text-[10px] font-mono tracking-[0.28em] uppercase text-[#6f7a66]"
               initial={{ opacity: 0, x: 12 }}
               animate={loaded ? { opacity: 1, x: 0 } : { opacity: 0, x: 12 }}
-              transition={{ duration: 0.8, delay: 1.4, ease }}
+              transition={{ duration: 0.8, delay: 1.4 - speedup, ease }}
             >
               <span className="w-[22px] h-[1px] bg-[rgba(157,255,63,0.5)]" />
               01 / Manifesto
@@ -84,7 +87,7 @@ export default function Hero() {
             className="mt-8 max-w-[400px] text-[15px] leading-relaxed text-[#9aa590]"
             initial={{ opacity: 0, y: 24 }}
             animate={loaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-            transition={{ duration: 0.8, delay: 1.65, ease }}
+            transition={{ duration: 0.8, delay: 1.65 - speedup, ease }}
           >
             Software engineering, AI, data and cloud capabilities delivered as one engineering partner.
           </motion.p>
@@ -93,7 +96,7 @@ export default function Hero() {
             className="mt-10 flex flex-wrap items-center gap-4"
             initial={{ opacity: 0, y: 24 }}
             animate={loaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-            transition={{ duration: 0.8, delay: 1.8, ease }}
+            transition={{ duration: 0.8, delay: 1.8 - speedup, ease }}
           >
             <LimeButton href="#capabilities">Explore Capabilities</LimeButton>
             <GhostButton href="#contact">Start a Conversation</GhostButton>
@@ -105,7 +108,7 @@ export default function Hero() {
         className="relative z-10 vx-container pb-8 flex items-center justify-between text-[10px] font-mono tracking-[0.22em] uppercase text-[#6f7a66]"
         initial={{ opacity: 0 }}
         animate={loaded ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 1, delay: 2.15 }}
+        transition={{ duration: 1, delay: 2.15 - speedup }}
       >
         <span className="flex items-center gap-3">
           <span className="vx-pulse-dot" />

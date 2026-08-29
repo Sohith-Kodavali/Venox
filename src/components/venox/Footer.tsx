@@ -1,18 +1,31 @@
 import { ArrowRight, Logo } from "./ui";
 import Reveal from "./Reveal";
 
-const COLS = [
+const COLS: { head: string; links: { label: string; href: string }[] }[] = [
   {
     head: "Capabilities",
-    links: ["AI & Data", "Cloud & DevOps", "Software Engineering"],
+    links: [
+      { label: "AI & Data", href: "#capabilities" },
+      { label: "Cloud & DevOps", href: "#capabilities" },
+      { label: "Software Engineering", href: "#capabilities" },
+    ],
   },
   {
     head: "Company",
-    links: ["About Us", "Our Process", "Engagement Models", "Solution Experience"],
+    links: [
+      { label: "About Us", href: "#about" },
+      { label: "Our Process", href: "#process" },
+      { label: "Engagement Models", href: "#engagement" },
+      { label: "Solution Experience", href: "#solutions" },
+    ],
   },
   {
     head: "Resources",
-    links: ["Approach", "Technologies", "FAQs"],
+    links: [
+      { label: "Approach", href: "#process" },
+      { label: "Technologies", href: "#tech" },
+      { label: "Contact", href: "#contact" },
+    ],
   },
 ];
 
@@ -73,8 +86,8 @@ export default function Footer() {
               <div>
                 <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-white mb-4">{c.head}</p>
                 {c.links.map((l) => (
-                  <a key={l} href="#top" className="vx-footer-link">
-                    {l}
+                  <a key={l.label} href={l.href} className="vx-footer-link">
+                    {l.label}
                   </a>
                 ))}
               </div>

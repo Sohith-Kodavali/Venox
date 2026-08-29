@@ -7,10 +7,10 @@ import Reveal from "./Reveal";
 import WaveCanvas from "./WaveCanvas";
 
 const STATS = [
-  { num: "3", label: "Core Disciplines" },
-  { num: "6", label: "Delivery Stages" },
-  { num: "4", label: "Engagement Models" },
-  { num: "2", label: "Global Locations" },
+  { num: "3", label: "AI · Cloud · Software", sub: "Disciplines" },
+  { num: "6", label: "Discovery to Support", sub: "Delivery Stages" },
+  { num: "4", label: "Project · Team · Partner · Managed", sub: "Engagement Models" },
+  { num: "2", label: "US HQ · India Delivery", sub: "Global Presence" },
 ];
 
 function CountUp({ value }: { value: string }) {
@@ -74,11 +74,14 @@ export default function Partnership() {
 
       <div className="relative vx-container pb-20 grid grid-cols-2 md:grid-cols-4 gap-px bg-[rgba(16,21,12,0.08)] border border-[rgba(16,21,12,0.08)]">
         {STATS.map((s, i) => (
-          <Reveal key={s.label} delay={i * 0.08} className="bg-[#f1f2ec]">
+          <Reveal key={s.sub} delay={i * 0.08} className="bg-[#f1f2ec]">
             <div className="px-6 py-7 group hover:bg-[#0b0f09] transition-colors duration-300">
               <CountUp value={s.num} />
-              <p className="mt-1 text-[10px] font-mono tracking-[0.18em] uppercase text-[#4c5544] group-hover:text-[#9aa590] transition-colors">
+              <p className="mt-2 text-[11px] font-semibold tracking-[0.06em] text-[#10150c] group-hover:text-[#eef2e6] transition-colors leading-snug">
                 {s.label}
+              </p>
+              <p className="mt-1 text-[9.5px] font-mono tracking-[0.18em] uppercase text-[#4c5544] group-hover:text-[#9aa590] transition-colors">
+                {s.sub}
               </p>
             </div>
           </Reveal>

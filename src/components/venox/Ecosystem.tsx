@@ -116,7 +116,7 @@ const TECH: { name: string; icon: ReactNode }[] = [
 export default function Ecosystem() {
   const row = [...TECH, ...TECH];
   return (
-    <section className="bg-[#060805] border-t border-[rgba(255,255,255,0.06)] relative overflow-hidden">
+    <section id="tech" className="bg-[#060805] border-t border-[rgba(255,255,255,0.06)] relative overflow-hidden">
       <div
         className="absolute inset-0 pointer-events-none"
         style={{ background: "radial-gradient(ellipse 50% 90% at 50% 0%, rgba(157,255,63,0.05), transparent 60%)" }}

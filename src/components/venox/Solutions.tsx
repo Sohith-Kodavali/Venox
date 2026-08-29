@@ -89,11 +89,6 @@ export default function Solutions() {
           ))}
         </div>
 
-        <Reveal delay={0.2}>
-          <p className="mt-8 text-[10.5px] font-mono tracking-[0.06em] text-[#4d573f]">
-            These are representative solution / reference implementations and can be replaced with approved client case studies.
-          </p>
-        </Reveal>
       </div>
     </section>
   );

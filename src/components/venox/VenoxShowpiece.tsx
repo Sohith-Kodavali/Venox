@@ -54,10 +54,12 @@ function CompactShowpiece() {
     offset: ["start end", "end start"],
   });
 
-  const tagOpacity = useTransform(scrollYProgress, [0.68, 0.82], [0, 1]);
-  const tagY = useTransform(scrollYProgress, [0.68, 0.82], [18, 0]);
-  const subOpacity = useTransform(scrollYProgress, [0.72, 0.86], [0, 1]);
-  const subY = useTransform(scrollYProgress, [0.72, 0.86], [18, 0]);
+  // Bring tag + subtitle in while the section is still centered on screen
+  // (was 0.68/0.82 which fired as the section was already scrolling away)
+  const tagOpacity = useTransform(scrollYProgress, [0.45, 0.58], [0, 1]);
+  const tagY = useTransform(scrollYProgress, [0.45, 0.58], [18, 0]);
+  const subOpacity = useTransform(scrollYProgress, [0.5, 0.63], [0, 1]);
+  const subY = useTransform(scrollYProgress, [0.5, 0.63], [18, 0]);
 
   return (
     <section
@@ -127,8 +129,11 @@ function FullShowpiece() {
     progress.current = v;
   });
 
-  const tagOpacity = useTransform(scrollYProgress, [0.78, 0.92], [0, 1]);
-  const tagY = useTransform(scrollYProgress, [0.78, 0.92], [20, 0]);
+  // Tag reveals mid-section and stays visible for the remainder of the
+  // sticky scroll — previously fired at 0.78/0.92 so it only showed for
+  // a couple of frames before the section moved on
+  const tagOpacity = useTransform(scrollYProgress, [0.5, 0.65], [0, 1]);
+  const tagY = useTransform(scrollYProgress, [0.5, 0.65], [20, 0]);
   const sceneOpacity = useTransform(scrollYProgress, [0, 0.08], [0.4, 1]);
   const sceneScale = useTransform(scrollYProgress, [0, 0.08], [0.96, 1]);
 

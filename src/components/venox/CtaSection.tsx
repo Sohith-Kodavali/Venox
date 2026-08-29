@@ -93,7 +93,7 @@ export default function CtaSection() {
               </a>
               <span className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 bg-[#9dff3f]/50 rounded-full" />
-                Austin, TX &nbsp;·&nbsp; India Delivery
+                Austin, TX
               </span>
             </div>
           </Reveal>

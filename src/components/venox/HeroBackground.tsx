@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { VX_LOADED_EVENT } from "./useLoaded";
+import { VX_HERO_ENTER_EVENT } from "./useLoaded";
 
 const LIME = new THREE.Color("#9dff3f");
 const LIME_SOFT = new THREE.Color("#c8ff86");
@@ -592,7 +592,7 @@ export default function HeroBackground() {
       entryStarted = true;
       entryStartT = clock.getElapsedTime();
     };
-    window.addEventListener(VX_LOADED_EVENT, triggerEntry);
+    window.addEventListener(VX_HERO_ENTER_EVENT, triggerEntry);
     if (reduceMotion) triggerEntry();
     // Safety fallback so scene doesn't stay frozen if the event never fires
     const entryFallback = window.setTimeout(triggerEntry, 3400);
@@ -699,7 +699,7 @@ export default function HeroBackground() {
       stop();
       ro.disconnect();
       io.disconnect();
-      window.removeEventListener(VX_LOADED_EVENT, triggerEntry);
+      window.removeEventListener(VX_HERO_ENTER_EVENT, triggerEntry);
       window.clearTimeout(entryFallback);
       if (!isCoarse) window.removeEventListener("pointermove", onPointerMove);
 

@@ -119,7 +119,12 @@ export default function Footer() {
 
       <div className="relative border-t border-[rgba(255,255,255,0.05)] bg-[#030502]">
         <div className="vx-container py-5 flex flex-wrap items-center justify-between gap-4 text-[10px] font-mono tracking-[0.08em] text-[#4d573f]">
-          <span>© 2026 Vexon Solutions Inc. All rights reserved.</span>
+          <span className="flex items-center gap-4">
+            <span>© 2026 Vexon Solutions Inc. All rights reserved.</span>
+            <span className="hidden sm:inline text-[#242c1f] tracking-[0.14em]">
+              Made by Aeternum Works
+            </span>
+          </span>
           <span className="flex items-center gap-6">
             <a href="#top" className="hover:text-[#9aa590]">Privacy Policy</a>
             <a href="#top" className="hover:text-[#9aa590]">Terms of Service</a>

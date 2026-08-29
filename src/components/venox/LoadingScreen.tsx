@@ -7,7 +7,7 @@ import {
   motion,
   useReducedMotion,
 } from "framer-motion";
-import { emitLoaded } from "./useLoaded";
+import { emitHeroEnter, emitLoaded } from "./useLoaded";
 
 const CHARS = ["V", "E", "X", "O", "N"];
 
@@ -145,12 +145,14 @@ export default function LoadingScreen() {
         // touch scroll during the loader)
         window.scrollTo(0, 0);
         setZoom(true);
+        // Bring the hero BACKGROUND alive UNDER the V-zoom so when the
+        // overlay dismisses, the WebGL scene is already assembling —
+        // no "empty hero" pop like before.
+        emitHeroEnter();
       }, LOADED_AT_MS)
     );
-    // Emit loaded + hide overlay together, exactly like the click-to-skip
-    // path does. That gives hero animations a clean canvas to enter on
-    // instead of arriving mid-V-zoom while the loader is still occupying
-    // the frame — the "skipped is smoother" complaint.
+    // Text signal + overlay-hide fire together, exactly like the
+    // click-to-skip path does — hero text enters onto a clean canvas.
     timers.push(
       window.setTimeout(() => {
         emitLoaded();
@@ -201,6 +203,7 @@ export default function LoadingScreen() {
             transition: { duration: 0.28, ease: IN_OUT_EASE },
           }}
           onClick={() => {
+            emitHeroEnter();
             emitLoaded();
             setVisible(false);
           }}
@@ -448,6 +451,44 @@ export default function LoadingScreen() {
               </div>
             </motion.div>
           </motion.div>
+
+          {/* Skip control — subtle, fades in once the cascade is done so
+              it doesn't compete with the wordmark animation */}
+          <motion.button
+            type="button"
+            initial={{ opacity: 0, y: 12 }}
+            animate={
+              cascadeComplete
+                ? { opacity: zoom ? 0 : 1, y: 0 }
+                : { opacity: 0, y: 12 }
+            }
+            transition={{ duration: 0.55, delay: 0.35, ease: REVEAL_EASE }}
+            onClick={(e) => {
+              e.stopPropagation();
+              emitHeroEnter();
+              emitLoaded();
+              setVisible(false);
+            }}
+            aria-label="Skip intro"
+            className="absolute bottom-8 sm:bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-2.5 text-[10px] font-mono tracking-[0.28em] uppercase text-[#6f7a66] hover:text-[#9dff3f] focus-visible:text-[#9dff3f] transition-colors"
+          >
+            <span>Skip Intro</span>
+            <svg
+              width="14"
+              height="10"
+              viewBox="0 0 14 10"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M1 5h11M8 1.5 12.5 5 8 8.5"
+                stroke="currentColor"
+                strokeWidth="1.3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </motion.button>
         </motion.div>
       )}
     </AnimatePresence>

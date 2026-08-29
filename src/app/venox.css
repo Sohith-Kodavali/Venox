@@ -362,15 +362,6 @@ html:has(.venox) ::-webkit-scrollbar-thumb:hover {
   background-size: 56px 56px;
 }
 
-.vx-wa-ping {
-  animation: vx-wa-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
-  pointer-events: none;
-}
-@keyframes vx-wa-ping {
-  0%   { transform: scale(1);    opacity: 0.55; }
-  75%, 100% { transform: scale(1.55); opacity: 0; }
-}
-
 .venox .vx-hero-base {
   background:
     radial-gradient(120% 90% at 72% 40%, #1c5c40 0%, #144230 18%, #0d3226 42%, #0a2418 70%, #082018 100%),

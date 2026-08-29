@@ -91,7 +91,16 @@ export default function LoadingScreen() {
       return;
     }
 
+    // Lock scroll during load — html + body, plus disable Next's scroll
+    // restoration briefly so we always start at the top when the loader
+    // dismisses (mobile Safari sometimes restored to section 2)
+    const prevScrollRestoration =
+      typeof history !== "undefined" ? history.scrollRestoration : undefined;
+    if (typeof history !== "undefined") history.scrollRestoration = "manual";
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    window.scrollTo(0, 0);
+
     const start = performance.now();
     const timers: number[] = [];
 
@@ -132,6 +141,9 @@ export default function LoadingScreen() {
     );
     timers.push(
       window.setTimeout(() => {
+        // Snap to top right before the hero is revealed so any accumulated
+        // touch scroll from mobile browsers doesn't skip the hero section
+        window.scrollTo(0, 0);
         setZoom(true);
         emitLoaded();
       }, LOADED_AT_MS)
@@ -143,11 +155,19 @@ export default function LoadingScreen() {
       if (tipInterval) window.clearInterval(tipInterval);
       cancelAnimationFrame(raf);
       document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+      if (typeof history !== "undefined" && prevScrollRestoration !== undefined) {
+        history.scrollRestoration = prevScrollRestoration;
+      }
     };
   }, [reduceMotion]);
 
   useEffect(() => {
-    if (!visible) document.body.style.overflow = "";
+    if (!visible) {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+      window.scrollTo(0, 0);
+    }
   }, [visible]);
 
   if (reduceMotion) return null;

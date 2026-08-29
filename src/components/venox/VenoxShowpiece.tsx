@@ -11,12 +11,59 @@ const VenoxScene = dynamic(() => import("./VenoxScene"), { ssr: false });
 const CHARS = ["V", "E", "X", "O", "N"];
 
 // ── Compact fallback (mobile, reduced-motion, low-power) ─────────────────
-// Renders as a normal one-viewport-tall section with a simple animated
-// wordmark reveal instead of a 220vh scroll stunt that dead-scrolls on
-// devices where the WebGL scene is gated off.
-function CompactShowpiece() {
+// Scroll-driven reveal so the letters cascade in on scroll-down AND reverse
+// on scroll-up — the "stays stuck once revealed" complaint. Extra top/bottom
+// spacing gives the animation room to breathe before it kicks in.
+function CompactLetter({
+  char,
+  index,
+  scrollYProgress,
+}: {
+  char: string;
+  index: number;
+  scrollYProgress: import("framer-motion").MotionValue<number>;
+}) {
+  // Animation window per letter: staggered across scroll progress 0.15 → 0.7
+  const start = 0.15 + index * 0.08;
+  const end = start + 0.16;
+  const opacity = useTransform(scrollYProgress, [start, end], [0, 1]);
+  const y = useTransform(scrollYProgress, [start, end], [40, 0]);
+  const scale = useTransform(scrollYProgress, [start, end], [0.6, 1]);
   return (
-    <section className="relative bg-[#040603] overflow-hidden vx-grain">
+    <motion.span
+      style={{
+        opacity,
+        y,
+        scale,
+        WebkitTextStroke: "1.5px #9dff3f",
+        textShadow: "0 0 24px rgba(157,255,63,0.22)",
+      }}
+      className="text-[16vw] sm:text-[7rem] leading-none font-bold text-transparent"
+    >
+      {char}
+    </motion.span>
+  );
+}
+
+function CompactShowpiece() {
+  const ref = useRef<HTMLDivElement>(null);
+  // Track scroll from when the section top hits the viewport bottom to
+  // when its bottom leaves the viewport top — full reversible sweep.
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const tagOpacity = useTransform(scrollYProgress, [0.68, 0.82], [0, 1]);
+  const tagY = useTransform(scrollYProgress, [0.68, 0.82], [18, 0]);
+  const subOpacity = useTransform(scrollYProgress, [0.72, 0.86], [0, 1]);
+  const subY = useTransform(scrollYProgress, [0.72, 0.86], [18, 0]);
+
+  return (
+    <section
+      ref={ref}
+      className="relative bg-[#040603] overflow-hidden vx-grain"
+    >
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -26,41 +73,33 @@ function CompactShowpiece() {
       />
       <div className="absolute inset-0 vx-grid-bg opacity-50 pointer-events-none" />
 
-      <div className="relative vx-container flex flex-col items-center justify-center py-24 sm:py-28 min-h-[80svh]">
+      {/* Extra top/bottom padding so the scroll animation has runway
+          before the letters start moving in either direction */}
+      <div className="relative vx-container flex flex-col items-center justify-center py-36 sm:py-40 min-h-[90svh]">
         <div className="flex items-center justify-center gap-2 sm:gap-4">
           {CHARS.map((c, i) => (
-            <motion.span
+            <CompactLetter
               key={c}
-              initial={{ opacity: 0, y: 30, scale: 0.6 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{
-                duration: 0.7,
-                delay: 0.08 + i * 0.09,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className="text-[16vw] sm:text-[7rem] leading-none font-bold text-transparent"
-              style={{
-                WebkitTextStroke: "1.5px #9dff3f",
-                textShadow: "0 0 24px rgba(157,255,63,0.22)",
-              }}
-            >
-              {c}
-            </motion.span>
+              char={c}
+              index={i}
+              scrollYProgress={scrollYProgress}
+            />
           ))}
         </div>
 
-        <Reveal delay={0.55}>
-          <p className="mt-8 text-[10px] font-mono tracking-[0.34em] uppercase text-[#9dff3f] text-center">
-            Vexon Solutions Inc
-          </p>
-        </Reveal>
-        <Reveal delay={0.7}>
-          <p className="mt-3 text-[13px] text-[#9aa590] max-w-[420px] mx-auto leading-relaxed text-center">
-            Technology &amp; Digital Engineering Partner — building the systems
-            behind ambitious businesses.
-          </p>
-        </Reveal>
+        <motion.p
+          style={{ opacity: tagOpacity, y: tagY }}
+          className="mt-8 text-[10px] font-mono tracking-[0.34em] uppercase text-[#9dff3f] text-center"
+        >
+          Vexon Solutions Inc
+        </motion.p>
+        <motion.p
+          style={{ opacity: subOpacity, y: subY }}
+          className="mt-3 text-[13px] text-[#9aa590] max-w-[420px] mx-auto leading-relaxed text-center"
+        >
+          Technology &amp; Digital Engineering Partner — building the systems
+          behind ambitious businesses.
+        </motion.p>
       </div>
     </section>
   );

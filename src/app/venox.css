@@ -362,6 +362,20 @@ html:has(.venox) ::-webkit-scrollbar-thumb:hover {
   background-size: 56px 56px;
 }
 
+/* Keep form inputs dark when the browser autofills them (Chrome / Safari
+   default a bright yellow-white which torched the enquiry form) */
+.venox input:-webkit-autofill,
+.venox textarea:-webkit-autofill,
+.venox input:-webkit-autofill:hover,
+.venox textarea:-webkit-autofill:hover,
+.venox input:-webkit-autofill:focus,
+.venox textarea:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 40px #0a1108 inset !important;
+  -webkit-text-fill-color: #eef2e6 !important;
+  caret-color: #eef2e6 !important;
+  transition: background-color 9999s ease 0s;
+}
+
 .venox .vx-hero-base {
   background:
     radial-gradient(120% 90% at 72% 40%, #1c5c40 0%, #144230 18%, #0d3226 42%, #0a2418 70%, #082018 100%),

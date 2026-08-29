@@ -141,14 +141,22 @@ export default function LoadingScreen() {
     );
     timers.push(
       window.setTimeout(() => {
-        // Snap to top right before the hero is revealed so any accumulated
-        // touch scroll from mobile browsers doesn't skip the hero section
+        // Snap to top before hero reveal (mobile browsers can accumulate
+        // touch scroll during the loader)
         window.scrollTo(0, 0);
         setZoom(true);
-        emitLoaded();
       }, LOADED_AT_MS)
     );
-    timers.push(window.setTimeout(() => setVisible(false), TOTAL_MS));
+    // Emit loaded + hide overlay together, exactly like the click-to-skip
+    // path does. That gives hero animations a clean canvas to enter on
+    // instead of arriving mid-V-zoom while the loader is still occupying
+    // the frame — the "skipped is smoother" complaint.
+    timers.push(
+      window.setTimeout(() => {
+        emitLoaded();
+        setVisible(false);
+      }, TOTAL_MS)
+    );
 
     return () => {
       timers.forEach((t) => window.clearTimeout(t));

@@ -112,13 +112,13 @@ export default function Hero() {
       >
         <span className="flex items-center gap-3">
           <span className="vx-pulse-dot" />
-          United States
+          Austin, Texas &nbsp;&mdash;&nbsp; United States
         </span>
-        <span className="hidden md:flex items-center gap-2 text-[#9aa590]">
-          SYS.STATUS — ONLINE
-          <span className="w-12 h-[1px] bg-[rgba(157,255,63,0.4)]" />
-        </span>
-        <a href="#capabilities" className="flex items-center gap-2 hover:text-[#9dff3f] transition-colors">
+        <a
+          href="#capabilities"
+          className="flex items-center gap-2 hover:text-[#9dff3f] transition-colors"
+        >
+          <span className="hidden md:inline-block w-10 h-[1px] bg-[rgba(157,255,63,0.4)] mr-1" />
           Scroll
           <ArrowDown size={13} className="animate-bounce" />
         </a>

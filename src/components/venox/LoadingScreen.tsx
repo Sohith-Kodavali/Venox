@@ -461,33 +461,34 @@ export default function LoadingScreen() {
             </motion.div>
           </motion.div>
 
-          {/* Skip control — subtle, fades in once the cascade is done so
-              it doesn't compete with the wordmark animation */}
+          {/* Skip hint — appears early and stays visible, softly pulsing
+              so it reads as a clear affordance, not a decoration */}
           <motion.button
             type="button"
-            initial={{ opacity: 0, y: 12 }}
-            animate={
-              cascadeComplete
-                ? { opacity: zoom ? 0 : 1, y: 0 }
-                : { opacity: 0, y: 12 }
-            }
-            transition={{ duration: 0.55, delay: 0.35, ease: REVEAL_EASE }}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{
+              opacity: converge || zoom ? 0 : 1,
+              y: 0,
+            }}
+            transition={{ duration: 0.6, delay: 0.9, ease: REVEAL_EASE }}
             onClick={(e) => {
               e.stopPropagation();
               emitHeroEnter();
               emitLoaded();
               setVisible(false);
             }}
-            aria-label="Skip intro"
-            className="absolute bottom-8 sm:bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-2.5 text-[10px] font-mono tracking-[0.28em] uppercase text-[#6f7a66] hover:text-[#9dff3f] focus-visible:text-[#9dff3f] transition-colors"
+            aria-label="Skip intro animation"
+            className="group absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2.5 px-3 py-2 text-[10px] font-mono tracking-[0.28em] uppercase text-[#9aa590] hover:text-[#9dff3f] focus-visible:text-[#9dff3f] transition-colors"
           >
-            <span>Skip Intro</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#9dff3f]/60 group-hover:bg-[#9dff3f] vx-skip-pulse" />
+            <span>Click to skip</span>
             <svg
               width="14"
               height="10"
               viewBox="0 0 14 10"
               fill="none"
               aria-hidden="true"
+              className="transition-transform group-hover:translate-x-0.5"
             >
               <path
                 d="M1 5h11M8 1.5 12.5 5 8 8.5"

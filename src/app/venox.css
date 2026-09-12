@@ -362,6 +362,18 @@ html:has(.venox) ::-webkit-scrollbar-thumb:hover {
   background-size: 56px 56px;
 }
 
+/* Softly pulsing dot on the "Click to skip" hint */
+.vx-skip-pulse {
+  animation: vx-skip-pulse 2.2s ease-in-out infinite;
+}
+@keyframes vx-skip-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); box-shadow: 0 0 0 rgba(157,255,63,0); }
+  50%      { opacity: 1;   transform: scale(1.25); box-shadow: 0 0 8px rgba(157,255,63,0.6); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vx-skip-pulse { animation: none; }
+}
+
 /* Keep form inputs dark when the browser autofills them (Chrome / Safari
    default a bright yellow-white which torched the enquiry form) */
 .venox input:-webkit-autofill,

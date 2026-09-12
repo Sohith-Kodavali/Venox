@@ -28,7 +28,7 @@ function ensure(): AudioContext | null {
     if (!AudioCtx) return null;
     ctx = new AudioCtx();
     master = ctx.createGain();
-    master.gain.value = 0.18; // conservative overall level
+    master.gain.value = 0.55; // stronger overall level per client request
     master.connect(ctx.destination);
     return ctx;
   } catch {

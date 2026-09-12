@@ -31,7 +31,7 @@ export default function CtaSection() {
       window.location.href = `mailto:support@vexonsol.com?subject=${subject}&body=${body}`;
       setState({ kind: "sent" });
       sfx.success();
-      haptic([20, 50, 20]);
+      haptic([50, 80, 50, 80, 100]);
       return;
     }
 
@@ -45,7 +45,7 @@ export default function CtaSection() {
       if (!res.ok) throw new Error(`Server returned ${res.status}`);
       setState({ kind: "sent" });
       sfx.success();
-      haptic([20, 50, 20]);
+      haptic([50, 80, 50, 80, 100]);
       form.reset();
     } catch (err) {
       setState({ kind: "error", message: err instanceof Error ? err.message : "Something went wrong." });

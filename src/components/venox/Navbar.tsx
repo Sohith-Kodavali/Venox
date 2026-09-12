@@ -106,7 +106,7 @@ export default function Navbar() {
           <button
             onClick={() => {
               setOpen((v) => !v);
-              haptic(6);
+              haptic(25);
             }}
             className="lg:hidden w-10 h-10 relative flex items-center justify-center border border-[rgba(255,255,255,0.14)] z-[80]"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -171,7 +171,7 @@ export default function Navbar() {
                     }}
                     onClick={() => {
                       setOpen(false);
-                      haptic(6);
+                      haptic(18);
                     }}
                     className="group flex items-center justify-between py-4 text-white active:text-[#9dff3f]"
                   >
@@ -208,7 +208,7 @@ export default function Navbar() {
                     }}
                     onClick={() => {
                       setOpen(false);
-                      haptic(6);
+                      haptic(18);
                     }}
                     className="group flex items-center justify-between py-4 text-white active:text-[#9dff3f]"
                   >
@@ -239,7 +239,7 @@ export default function Navbar() {
                   <a
                     href="mailto:support@vexonsol.com"
                     className="mt-2 block text-[16px] text-white active:text-[#9dff3f]"
-                    onClick={() => haptic(6)}
+                    onClick={() => haptic(18)}
                   >
                     support@vexonsol.com
                   </a>
@@ -250,7 +250,7 @@ export default function Navbar() {
                     href="#contact"
                     onClick={() => {
                       setOpen(false);
-                      haptic(10);
+                      haptic([15, 25, 30]);
                     }}
                     className="vx-btn vx-btn-lime mt-5 w-full justify-center"
                   >

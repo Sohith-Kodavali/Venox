@@ -30,7 +30,7 @@ export function LimeButton({ href, children }: { href: string; children: ReactNo
       className="vx-btn vx-btn-lime"
       onClick={() => {
         sfx.click();
-        haptic(10);
+        haptic([15, 25, 30]);
       }}
       onMouseEnter={() => sfx.hover()}
     >
@@ -47,7 +47,7 @@ export function GhostButton({ href, children }: { href: string; children: ReactN
       className="vx-btn vx-btn-ghost"
       onClick={() => {
         sfx.click();
-        haptic(8);
+        haptic([12, 20, 25]);
       }}
       onMouseEnter={() => sfx.hover()}
     >
@@ -74,7 +74,7 @@ export function ArrowLink({
       className={`vx-arrow-link ${dark ? "text-[#10150c]" : "text-[#9dff3f]"} ${className}`}
       onClick={() => {
         sfx.click();
-        haptic(6);
+        haptic(20);
       }}
     >
       {children}

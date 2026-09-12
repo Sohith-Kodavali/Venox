@@ -3,8 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import {
   motion,
+  useMotionValue,
   useReducedMotion,
   useScroll,
+  useSpring,
   useTransform,
 } from "framer-motion";
 import { ArrowDown, GhostButton, LimeButton } from "./ui";
@@ -23,29 +25,30 @@ const LINES: LineSpec[] = [
 
 export default function Hero() {
   const { loaded, mode } = useLoaded();
-  // User already sat through the full loader on natural completion, so
-  // shave a little off every entry delay for a snappier hero landing.
   const speedup = mode === "natural" ? 0.18 : 0;
 
-  // ─── Scroll-exit parallax ────────────────────────────────────────────────
-  // Three layers move at different speeds as the user scrolls off the hero:
-  //   background  → lingers  (translate +Ysvh)   feels like it stays
-  //   text stack  → normal / slight lead (small −Y)
-  //   bottom row  → leads    (larger −Y)         exits first
-  // All GPU transforms only; reduced-motion + mobile magnitudes handled.
   const heroRef = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
   const [isMobile, setIsMobile] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
 
   useEffect(() => {
-    const update = () => setIsMobile(window.innerWidth < 768);
+    const update = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsTouch(window.matchMedia("(pointer: coarse)").matches);
+    };
     update();
     window.addEventListener("resize", update, { passive: true });
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  const magnitude = reduceMotion ? 0 : isMobile ? 0.5 : 1;
+  const magnitude = reduceMotion ? 0 : isMobile ? 0.55 : 1;
 
+  // ─── SCROLL PARALLAX ──────────────────────────────────────────────────
+  // Bumped magnitudes so the depth is unmistakable during hero exit.
+  // At scroll-through-complete: background lingers 32svh, content leads
+  // 14svh, bottom row leads 30svh — a 60svh spread between the slowest
+  // and fastest layers.
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
@@ -54,23 +57,52 @@ export default function Hero() {
   const bgY = useTransform(
     scrollYProgress,
     [0, 1],
-    ["0svh", `${16 * magnitude}svh`]
+    ["0svh", `${32 * magnitude}svh`]
   );
   const bgOpacity = useTransform(
     scrollYProgress,
-    [0, 0.65, 1],
-    [1, 0.75, 0.4]
+    [0, 0.55, 1],
+    [1, 0.7, 0.25]
   );
   const contentY = useTransform(
     scrollYProgress,
     [0, 1],
-    ["0svh", `${-6 * magnitude}svh`]
+    ["0svh", `${-14 * magnitude}svh`]
   );
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.7, 1], [1, 0.9, 0.55]);
   const bottomY = useTransform(
     scrollYProgress,
     [0, 1],
-    ["0svh", `${-14 * magnitude}svh`]
+    ["0svh", `${-30 * magnitude}svh`]
   );
+
+  // ─── MOUSE PARALLAX ───────────────────────────────────────────────────
+  // Runs on desktop only. Feeds three foreground layers at increasing
+  // depth so you see parallax immediately, no scroll needed.
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const smx = useSpring(mx, { stiffness: 90, damping: 22, mass: 0.6 });
+  const smy = useSpring(my, { stiffness: 90, damping: 22, mass: 0.6 });
+
+  // Near-field (biggest shift), mid-field, far-field
+  const nearX = useTransform(smx, [-1, 1], [30, -30]);
+  const nearY = useTransform(smy, [-1, 1], [24, -24]);
+  const midX = useTransform(smx, [-1, 1], [16, -16]);
+  const midY = useTransform(smy, [-1, 1], [12, -12]);
+  const farX = useTransform(smx, [-1, 1], [8, -8]);
+  const farY = useTransform(smy, [-1, 1], [6, -6]);
+
+  useEffect(() => {
+    if (reduceMotion || isTouch) return;
+    const onMove = (e: PointerEvent) => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      mx.set((e.clientX / w) * 2 - 1);
+      my.set((e.clientY / h) * 2 - 1);
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onMove);
+  }, [mx, my, reduceMotion, isTouch]);
 
   return (
     <section
@@ -80,9 +112,14 @@ export default function Hero() {
     >
       <div className="absolute inset-0 vx-grid-bg" />
 
-      {/* Background layer — lingers, opacity dims into next section */}
+      {/* Background layer — lingers on scroll, drifts far-field with mouse */}
       <motion.div
-        style={{ y: bgY, opacity: bgOpacity, willChange: "transform, opacity" }}
+        style={{
+          y: bgY,
+          opacity: bgOpacity,
+          x: farX,
+          willChange: "transform, opacity",
+        }}
         className="absolute inset-0"
       >
         <HeroBackground />
@@ -92,17 +129,31 @@ export default function Hero() {
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(180deg,rgba(11,36,26,0.4)_0%,rgba(11,36,26,0)_24%,rgba(11,36,26,0)_56%,rgba(6,18,12,0.92)_100%)]" />
       <div className="vx-scanline" />
 
-      <div className="absolute top-24 left-6 vx-hud-corner !border-t-[1px] !border-l-[1px] hidden md:block" />
-      <div className="absolute top-24 right-6 vx-hud-corner !border-t-[1px] !border-r-[1px] hidden md:block" />
-      <div className="absolute bottom-24 left-6 vx-hud-corner !border-b-[1px] !border-l-[1px] hidden md:block" />
-      <div className="absolute bottom-24 right-6 vx-hud-corner !border-b-[1px] !border-r-[1px] hidden md:block" />
-
-      {/* Content layer — small upward lead relative to the section scroll */}
+      {/* HUD corners — near-field mouse parallax (largest shift) */}
       <motion.div
-        style={{ y: contentY, willChange: "transform" }}
+        style={{ x: nearX, y: nearY, willChange: "transform" }}
+        className="absolute inset-0 pointer-events-none hidden md:block"
+      >
+        <span className="absolute top-24 left-6 vx-hud-corner !border-t-[1px] !border-l-[1px]" />
+        <span className="absolute top-24 right-6 vx-hud-corner !border-t-[1px] !border-r-[1px]" />
+        <span className="absolute bottom-24 left-6 vx-hud-corner !border-b-[1px] !border-l-[1px]" />
+        <span className="absolute bottom-24 right-6 vx-hud-corner !border-b-[1px] !border-r-[1px]" />
+      </motion.div>
+
+      {/* Content — scroll lead + mid-field mouse drift */}
+      <motion.div
+        style={{
+          y: contentY,
+          opacity: contentOpacity,
+          x: midX,
+          willChange: "transform, opacity",
+        }}
         className="relative z-10 flex-1 flex flex-col justify-center"
       >
-        <div className="vx-container w-full pt-32 pb-20">
+        <motion.div
+          style={{ y: midY }}
+          className="vx-container w-full pt-32 pb-20"
+        >
           <motion.p
             className="vx-tag mb-8"
             initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
@@ -150,7 +201,6 @@ export default function Hero() {
               ))}
             </h1>
 
-            {/* Small technical marker in the top-right of the headline */}
             <motion.span
               aria-hidden="true"
               className="hidden lg:flex absolute right-0 top-1 items-center gap-2 text-[10px] font-mono tracking-[0.28em] uppercase text-[#6f7a66]"
@@ -182,12 +232,16 @@ export default function Hero() {
             <LimeButton href="#capabilities">Explore Capabilities</LimeButton>
             <GhostButton href="#contact">Start a Conversation</GhostButton>
           </motion.div>
-        </div>
+        </motion.div>
       </motion.div>
 
-      {/* Bottom row — leads on scroll, exits first */}
+      {/* Bottom row — largest scroll lead, near-field mouse drift */}
       <motion.div
-        style={{ y: bottomY, willChange: "transform" }}
+        style={{
+          y: bottomY,
+          x: nearX,
+          willChange: "transform",
+        }}
         className="relative z-10 vx-container pb-8 flex items-center justify-between text-[10px] font-mono tracking-[0.22em] uppercase text-[#6f7a66]"
       >
         <motion.span

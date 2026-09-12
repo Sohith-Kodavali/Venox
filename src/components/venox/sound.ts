@@ -115,6 +115,20 @@ function noise(duration: number, filterFreq: number, gain = 0.28) {
   src.stop(now + duration + 0.02);
 }
 
+/** Fire a subtle vibration pattern on devices that support it.
+ *  Respects the same mute toggle used for audio so it acts as a single
+ *  "sensory feedback" switch. Silently no-ops when unsupported. */
+export function haptic(pattern: number | number[] = 8) {
+  if (typeof navigator === "undefined") return;
+  if (muted) return;
+  const nav = navigator as Navigator & { vibrate?: (p: number | number[]) => boolean };
+  try {
+    nav.vibrate?.(pattern);
+  } catch {
+    /* ignore — some browsers throw on repeat calls */
+  }
+}
+
 export const sfx = {
   /** Soft tick for letter cascade */
   tick() {

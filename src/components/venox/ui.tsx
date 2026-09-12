@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { sfx } from "./sound";
+import { haptic, sfx } from "./sound";
 
 export function ArrowRight({ size = 16, className = "" }: { size?: number; className?: string }) {
   return (
@@ -28,7 +28,10 @@ export function LimeButton({ href, children }: { href: string; children: ReactNo
     <a
       href={href}
       className="vx-btn vx-btn-lime"
-      onClick={() => sfx.click()}
+      onClick={() => {
+        sfx.click();
+        haptic(10);
+      }}
       onMouseEnter={() => sfx.hover()}
     >
       {children}
@@ -42,7 +45,10 @@ export function GhostButton({ href, children }: { href: string; children: ReactN
     <a
       href={href}
       className="vx-btn vx-btn-ghost"
-      onClick={() => sfx.click()}
+      onClick={() => {
+        sfx.click();
+        haptic(8);
+      }}
       onMouseEnter={() => sfx.hover()}
     >
       {children}
@@ -66,7 +72,10 @@ export function ArrowLink({
     <a
       href={href}
       className={`vx-arrow-link ${dark ? "text-[#10150c]" : "text-[#9dff3f]"} ${className}`}
-      onClick={() => sfx.click()}
+      onClick={() => {
+        sfx.click();
+        haptic(6);
+      }}
     >
       {children}
       <ArrowRight size={14} />

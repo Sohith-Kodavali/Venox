@@ -548,15 +548,42 @@ export default function HeroBackground() {
       ribbonMats.push(m);
     }
 
-    // ── POINTER ────────────────────────────────────────────────────────────
+    // ── POINTER / TOUCH ────────────────────────────────────────────────────
+    // Desktop: pointermove is always live.
+    // Touch: pointermove is only live WHILE a finger is down (touchstart …
+    // touchend), and the pointer decays back to center when the finger
+    // lifts. This is what gives mobile the "drag to interact" feel instead
+    // of being dead.
     const pointer = new THREE.Vector2(0, 0);
     const smoothPointer = new THREE.Vector2(0, 0);
+    let touching = false;
+
     const onPointerMove = (e: PointerEvent) => {
+      if (e.pointerType === "touch" && !touching) return;
       const rect = renderer.domElement.getBoundingClientRect();
       pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       pointer.y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
     };
-    if (!isCoarse) window.addEventListener("pointermove", onPointerMove, { passive: true });
+    const onPointerDown = (e: PointerEvent) => {
+      if (e.pointerType !== "touch") return;
+      touching = true;
+      const rect = renderer.domElement.getBoundingClientRect();
+      pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      pointer.y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+    };
+    const onPointerUp = (e: PointerEvent) => {
+      if (e.pointerType !== "touch") return;
+      touching = false;
+      // Let it drift back to center — smoothPointer damping handles this
+      pointer.set(0, 0);
+    };
+
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    if (isCoarse) {
+      window.addEventListener("pointerdown", onPointerDown, { passive: true });
+      window.addEventListener("pointerup", onPointerUp, { passive: true });
+      window.addEventListener("pointercancel", onPointerUp, { passive: true });
+    }
 
     // ── RESIZE ─────────────────────────────────────────────────────────────
     const onResize = () => {
@@ -701,7 +728,12 @@ export default function HeroBackground() {
       io.disconnect();
       window.removeEventListener(VX_HERO_ENTER_EVENT, triggerEntry);
       window.clearTimeout(entryFallback);
-      if (!isCoarse) window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointermove", onPointerMove);
+      if (isCoarse) {
+        window.removeEventListener("pointerdown", onPointerDown);
+        window.removeEventListener("pointerup", onPointerUp);
+        window.removeEventListener("pointercancel", onPointerUp);
+      }
 
       nucleusGeom.dispose();
       nucleusMat.dispose();

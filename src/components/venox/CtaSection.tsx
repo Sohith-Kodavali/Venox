@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ArrowRight, LimeButton, Tag } from "./ui";
 import Reveal from "./Reveal";
 import WaveCanvas from "./WaveCanvas";
-import { sfx } from "./sound";
+import { haptic, sfx } from "./sound";
 
 // TODO: replace with a real endpoint (Formspree / Basin / Netlify Forms / API route)
 const FORM_ENDPOINT = "";
@@ -31,6 +31,7 @@ export default function CtaSection() {
       window.location.href = `mailto:support@vexonsol.com?subject=${subject}&body=${body}`;
       setState({ kind: "sent" });
       sfx.success();
+      haptic([20, 50, 20]);
       return;
     }
 
@@ -44,6 +45,7 @@ export default function CtaSection() {
       if (!res.ok) throw new Error(`Server returned ${res.status}`);
       setState({ kind: "sent" });
       sfx.success();
+      haptic([20, 50, 20]);
       form.reset();
     } catch (err) {
       setState({ kind: "error", message: err instanceof Error ? err.message : "Something went wrong." });
